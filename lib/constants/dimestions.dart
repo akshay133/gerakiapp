@@ -1,9 +1,3 @@
 
-import 'package:flutter/material.dart';
-
-class Dimensions{
-  
-  static final screenHeight = 600;
-  static final screenWidth = 300;
-
-}
+const screenHeight = 500;
+const screenWidth = 300;
