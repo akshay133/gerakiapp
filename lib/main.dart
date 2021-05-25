@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
-import 'package:geraki/screens/homepage.dart';
 import 'package:geraki/screens/signup_screen.dart';
 
 void main() {
@@ -12,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: primaryColor,
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
             headline6: TextStyle(
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
-                fontSize: 18)),
+                fontSize: 16)),
         textSelectionTheme: TextSelectionThemeData(cursorColor: primaryColor),
         primaryTextTheme: TextTheme(headline6: TextStyle(color: whiteColor)),
         appBarTheme: AppBarTheme(
@@ -30,12 +30,12 @@ class MyApp extends StatelessWidget {
           textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
                   fontFamily: 'OpenSans',
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold)),
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: MyHomePage(),
+      home: SignUpScreen(),
       routes: {
         SignUpScreen.id: (context) => SignUpScreen(),
       },
