@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
-import 'package:geraki/screens/signup_screen.dart';
+import 'package:geraki/screens/welcome_screen.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +13,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -35,10 +38,7 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: SignUpScreen(),
-      routes: {
-        SignUpScreen.id: (context) => SignUpScreen(),
-      },
+      home: WelcomeScreen(),
     );
   }
 }
