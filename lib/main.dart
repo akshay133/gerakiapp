@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/screens/homepage.dart';
+import 'package:geraki/screens/welcomeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           appBarTheme: AppBarTheme(
             iconTheme: IconThemeData(color: whiteColor),
           )),
-      home: MyHomePage(),
+      home: WelcomeScreen(),
     );
   }
 }
