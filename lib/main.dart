@@ -22,18 +22,22 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Quicksand',
         scaffoldBackgroundColor: whiteColor,
         textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.bold,
-                fontSize: 16)),
+              headline6: TextStyle(
+                  fontSize: 22,
+                  fontFamily: 'OpenSans',
+                  color: headlineColor,
+                  fontWeight: FontWeight.bold),
+              bodyText1: TextStyle(fontFamily: 'OpenSans', color: whiteColor),
+              subtitle1: TextStyle(
+                  fontSize: 16, fontFamily: 'OpenSans', color: subtitleColor),
+            ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: primaryColor),
-        primaryTextTheme: TextTheme(headline6: TextStyle(color: whiteColor)),
         appBarTheme: AppBarTheme(
           elevation: 0.0,
           textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
                   fontFamily: 'OpenSans',
-                  fontSize: 30,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold)),
           iconTheme: IconThemeData(color: whiteColor),
         ),

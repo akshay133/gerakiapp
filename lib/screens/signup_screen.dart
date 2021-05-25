@@ -32,14 +32,28 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             children: [
               Image.asset(
-                gerakiImg,
+                road,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 54),
+              SizedBox(
+                height: size.height * 0.034,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  cntinueWithph,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.012,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                alignment: Alignment.topLeft,
                 child: Text(
                   verifysixdigit,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
               ),
               SizedBox(
@@ -55,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
 
   Container buildTextFiledContainer(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.only(
@@ -68,21 +82,25 @@ class SignUpScreen extends StatelessWidget {
                 spreadRadius: -2)
           ]),
       child: TextField(
+        style: TextStyle(color: headlineColor),
         decoration: InputDecoration(
             hintText: '1234567890',
-            labelText: 'Enter your phone',
+            labelText: 'Enter your Number',
             border: InputBorder.none,
             prefix: Padding(
               padding: EdgeInsets.all(4),
-              child: Text('+91'),
+              child: Text(
+                '+91',
+                style: TextStyle(color: headlineColor),
+              ),
             ),
             suffix: Container(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 26),
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 28),
               decoration: BoxDecoration(
                   color: btnColor, borderRadius: BorderRadius.circular(5)),
               child: Text(
                 cntinue,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.bodyText1,
               ),
             )),
         maxLength: 10,
