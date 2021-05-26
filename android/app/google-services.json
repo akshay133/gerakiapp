@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948796898125",
+    "project_id": "geraki-a901b",
+    "storage_bucket": "geraki-a901b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948796898125:android:54fe462dbfde51c8f35504",
+        "android_client_info": {
+          "package_name": "com.example.geraki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948796898125-jj8qk26fa4aas56npdihtbsboeluqiqo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6iunDg1YEVfdp6FgU_rTU1JJOs0ehxTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948796898125-jj8qk26fa4aas56npdihtbsboeluqiqo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -72,8 +72,6 @@ class SignUpScreen extends StatelessWidget {
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
           color: whiteColor,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
           boxShadow: [
             BoxShadow(
                 color: Color(0xff000000).withOpacity(0.15),
