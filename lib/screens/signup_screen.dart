@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/images.dart';
+import 'package:geraki/constants/shadows.dart';
 import 'package:geraki/constants/strings.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -21,8 +22,7 @@ class SignUpScreen extends StatelessWidget {
               padding: EdgeInsets.only(right: 16),
               child: Text(
                 login,
-                style: TextStyle(
-                    color: whiteColor, fontSize: 16, fontFamily: 'OpenSans'),
+                style: Theme.of(context).textTheme.subtitle2,
               ))
         ],
       ),
@@ -72,38 +72,57 @@ class SignUpScreen extends StatelessWidget {
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
           color: whiteColor,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
           boxShadow: [
             BoxShadow(
-                color: Color(0xff000000).withOpacity(0.15),
-                blurRadius: 5,
+                color: shadowColor2,
+                blurRadius: 32,
                 offset: Offset(0, -5),
-                spreadRadius: -2)
+                spreadRadius: -4),
+            BoxShadow(
+                color: shadowColor1,
+                blurRadius: 2,
+                offset: Offset(0, 0),
+                spreadRadius: 0),
           ]),
-      child: TextField(
-        style: TextStyle(color: headlineColor),
-        decoration: InputDecoration(
-            hintText: '1234567890',
-            labelText: 'Enter your Number',
-            border: InputBorder.none,
-            prefix: Padding(
-              padding: EdgeInsets.all(4),
-              child: Text(
-                '+91',
-                style: TextStyle(color: headlineColor),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              style: TextStyle(color: headlineColor),
+              decoration: InputDecoration(
+                hintText: '1234567890',
+                labelText: 'Enter your Number',
+                border: InputBorder.none,
+                prefix: Padding(
+                  padding: EdgeInsets.all(4),
+                  child: Text(
+                    '+91',
+                    style: TextStyle(color: headlineColor),
+                  ),
+                ),
               ),
+              maxLength: 10,
+              keyboardType: TextInputType.phone,
+              controller: _controller,
             ),
-            suffix: Container(
+          ),
+          InkWell(
+            onTap: () {},
+            child: Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 28),
               decoration: BoxDecoration(
-                  color: btnColor, borderRadius: BorderRadius.circular(5)),
+                  boxShadow: shadows,
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(5)),
               child: Text(
                 cntinue,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.subtitle2,
               ),
-            )),
-        maxLength: 10,
-        keyboardType: TextInputType.phone,
-        controller: _controller,
+            ),
+          )
+        ],
       ),
     );
   }
