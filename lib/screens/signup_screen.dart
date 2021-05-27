@@ -1,18 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
+import 'package:geraki/constants/custome_shapes.dart';
+import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
-import 'package:geraki/constants/shadows.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:geraki/screens/veryfy_otp_screen.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -33,35 +33,42 @@ class SignUpScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Image.asset(
-                road,
+              Column(
+                children: [
+                  Image.asset(
+                    road,
+                    width: double.infinity,
+                    height: screenHeight * 0.428,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.034,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      cntinueWithph,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.012,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      verifysixdigit,
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                  ),
+                  buildTextFiledContainer(context),
+                ],
               ),
-              SizedBox(
-                height: size.height * 0.034,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  cntinueWithph,
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.012,
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                alignment: Alignment.topLeft,
-                child: Text(
-                  verifysixdigit,
-                  style: Theme.of(context).textTheme.subtitle1,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.05,
-              ),
-              buildTextFiledContainer(context),
             ],
           ),
         ),
@@ -79,14 +86,9 @@ class SignUpScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
                 color: shadowColor2,
-                blurRadius: 32,
-                offset: Offset(0, -5),
+                blurRadius: 10,
+                offset: Offset(0, -12),
                 spreadRadius: -4),
-            BoxShadow(
-                color: shadowColor1,
-                blurRadius: 2,
-                offset: Offset(0, 0),
-                spreadRadius: 0),
           ]),
       child: Row(
         children: [
@@ -107,15 +109,18 @@ class SignUpScreen extends StatelessWidget {
               ),
               maxLength: 10,
               keyboardType: TextInputType.phone,
-              controller: _controller,
+              controller: _phoneController,
             ),
           ),
           InkWell(
             onTap: () {
-              Get.to(VerifyOtpScreen());
+              Get.to(VerifyOtpScreen(),
+                  arguments: ["+91${_phoneController.text}"]);
             },
             child: Container(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 28),
+              padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.020,
+                  horizontal: screenWidth * 0.028),
               decoration: BoxDecoration(
                   boxShadow: shadows,
                   color: primaryColor,

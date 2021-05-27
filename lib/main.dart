@@ -1,16 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geraki/constants/colors.dart';
-import 'package:geraki/screens/profile_setup.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: primaryColor,
-      systemNavigationBarColor: lightGrey.withOpacity(0.5)));
   runApp(MyApp());
 }
 
@@ -27,6 +22,11 @@ class MyApp extends StatelessWidget {
         fontFamily: 'CARMEN SANS',
         scaffoldBackgroundColor: whiteColor,
         textTheme: ThemeData.light().textTheme.copyWith(
+              headline5: TextStyle(
+                fontSize: 16,
+                fontFamily: 'CARMEN SANS',
+                color: headlineColor,
+              ),
               headline6: TextStyle(
                   fontSize: 22,
                   fontFamily: 'CARMEN SANS',
@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
               headline6: TextStyle(
                   fontFamily: 'CARMEN SANS',
                   fontSize: 20,
+                  color: whiteColor,
                   fontWeight: FontWeight.bold)),
           iconTheme: IconThemeData(color: whiteColor),
         ),
