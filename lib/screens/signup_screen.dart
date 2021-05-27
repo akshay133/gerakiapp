@@ -4,6 +4,8 @@ import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/shadows.dart';
 import 'package:geraki/constants/strings.dart';
+import 'package:geraki/screens/veryfy_otp_screen.dart';
+import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
   TextEditingController _controller = TextEditingController();
@@ -109,7 +111,9 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(VerifyOtpScreen());
+            },
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 28),
               decoration: BoxDecoration(
