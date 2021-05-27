@@ -1,2 +1,4 @@
-const screenHeight = 500;
-const screenWidth = 300;
+import 'package:get/get.dart';
+
+double screenHeight = Get.height;
+double screenWidth = Get.width;

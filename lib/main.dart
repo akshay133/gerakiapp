@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
+import 'package:geraki/screens/profile_setup.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
