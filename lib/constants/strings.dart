@@ -8,3 +8,5 @@ const String codeSent = "Code is sent to";
 const String dontRecieveCode = "Didn’t receive code? Resend";
 const String getcodCall = "Get Code by Call";
 const String verify = "Verify";
+const String createAcc = 'Create Account';
+const String cntinueGuest='CONTINUE AS GUEST';
