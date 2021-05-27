@@ -19,24 +19,27 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         primaryColor: primaryColor,
         accentColor: primaryColor,
-        fontFamily: 'Quicksand',
+        fontFamily: 'CARMEN SANS',
         scaffoldBackgroundColor: whiteColor,
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
                   fontSize: 22,
-                  fontFamily: 'OpenSans',
+                  fontFamily: 'CARMEN SANS',
                   color: headlineColor,
                   fontWeight: FontWeight.bold),
-              bodyText1: TextStyle(fontFamily: 'OpenSans', color: whiteColor),
+              subtitle2:
+                  TextStyle(fontFamily: 'CARMEN SANS', color: whiteColor),
               subtitle1: TextStyle(
-                  fontSize: 16, fontFamily: 'OpenSans', color: subtitleColor),
+                  fontSize: 16,
+                  fontFamily: 'CARMEN SANS',
+                  color: subtitleColor),
             ),
         textSelectionTheme: TextSelectionThemeData(cursorColor: primaryColor),
         appBarTheme: AppBarTheme(
           elevation: 0.0,
           textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
-                  fontFamily: 'OpenSans',
+                  fontFamily: 'CARMEN SANS',
                   fontSize: 20,
                   fontWeight: FontWeight.bold)),
           iconTheme: IconThemeData(color: whiteColor),

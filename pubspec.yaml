@@ -33,6 +33,7 @@ dependencies:
   cached_network_image: ^3.0.0
   firebase_core: ^1.1.0
   firebase_auth: ^1.1.3
+  pin_code_fields: ^7.2.0
 
 dev_dependencies:
   flutter_test:
@@ -67,16 +68,23 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: OpenSans
+    - family: CARMEN SANS
       fonts:
-        - asset: assets/fonts/OpenSans-Regular.ttf
-        - asset: assets/fonts/OpenSans-Bold.ttf
+        - asset: assets/fonts/CARMEN SANS BOLD.OTF
+        - asset: assets/fonts/CARMEN SANS EXTRABOLD.OTF
+        - asset: assets/fonts/CARMEN SANS HEAVY.OTF
+        - asset: assets/fonts/CARMEN SANS LIGHT.OTF
+        - asset: assets/fonts/CARMEN SANS MEDIUM.OTF
+        - asset: assets/fonts/CARMEN SANS REGULAR.OTF
+        - asset: assets/fonts/CARMEN SANS SEMIBOLD.OTF
+        - asset: assets/fonts/CARMEN SANS THIN.OTF
+        - asset: assets/fonts/CARMEN SANS ULTRALIGHT.OTF
           weight: 800
-    - family: Quicksand
-      fonts:
-        - asset: assets/fonts/Quicksand-Regular.ttf
-        - asset: assets/fonts/Quicksand-Bold.ttf
-          weight: 800
+#    - family: Quicksand
+#      fonts:
+#        - asset: assets/fonts/Quicksand-Regular.ttf
+#        - asset: assets/fonts/Quicksand-Bold.ttf
+#          weight: 800
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
