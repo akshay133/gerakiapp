@@ -17,21 +17,34 @@ List<BoxShadow> shadows = [
   )
 ];
 
-Widget button(String btnText, BuildContext context, onTap) {
-  return InkWell(
-    onTap: onTap,
-    child: Container(
-      width: double.infinity,
-      height: screenHeight * 0.065,
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Center(
-          child: Text(
-        btnText,
-        style: Theme.of(context).textTheme.subtitle2,
-      )),
+Widget button(String btnText, BuildContext context, onPressed) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    style: ElevatedButton.styleFrom(
+        primary: primaryColor,
+        minimumSize: Size(
+          double.infinity,
+          screenHeight * 0.065,
+        )),
+    child: Text(
+      btnText,
+      style: Theme.of(context).textTheme.subtitle2,
     ),
+  );
+}
+
+Widget SmallButton(String btnText, BuildContext context, onPressed) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    child: Text(
+      btnText,
+      style: Theme.of(context).textTheme.subtitle2,
+    ),
+    style: ElevatedButton.styleFrom(
+        primary: primaryColor,
+        minimumSize: Size(
+          screenWidth / 4,
+          screenHeight * 0.065,
+        )),
   );
 }

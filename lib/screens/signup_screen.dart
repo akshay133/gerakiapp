@@ -5,12 +5,13 @@ import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
+import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/veryfy_otp_screen.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
   TextEditingController _phoneController = TextEditingController();
-
+  AuthController controller = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,25 +113,18 @@ class SignUpScreen extends StatelessWidget {
               controller: _phoneController,
             ),
           ),
-          InkWell(
-            onTap: () {
-              Get.to(VerifyOtpScreen(),
-                  arguments: ["+91${_phoneController.text}"]);
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: screenHeight * 0.020,
-                  horizontal: screenWidth * 0.028),
-              decoration: BoxDecoration(
-                  boxShadow: shadows,
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(5)),
-              child: Text(
-                cntinue,
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            ),
-          )
+          SmallButton(cntinue, context, () {
+            if (_phoneController.text.isEmpty) {
+              return Get.snackbar(
+                "Please enter your number!",
+                "",
+                snackPosition: SnackPosition.BOTTOM,
+              );
+            }
+            controller.verifyPhone("+91${_phoneController.text}");
+            Get.to(VerifyOtpScreen(),
+                arguments: ["+91${_phoneController.text}"]);
+          })
         ],
       ),
     );
