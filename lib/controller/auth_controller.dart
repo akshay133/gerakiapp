@@ -6,6 +6,7 @@ class AuthController extends GetxController {
   var authState = ''.obs;
   String verificationID = '';
   var auth = FirebaseAuth.instance;
+
   verifyPhone(String phone) async {
     try {
       await auth.verifyPhoneNumber(
@@ -18,6 +19,7 @@ class AuthController extends GetxController {
           codeSent: (String id, [int? forceResent]) {
             this.verificationID = id;
             authState.value = "Login Success";
+            Get.snackbar("code send", "");
           },
           codeAutoRetrievalTimeout: (id) {
             this.verificationID = id;
@@ -36,7 +38,7 @@ class AuthController extends GetxController {
       if (credential.user != null) {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
-        Get.to(HomeScreen());
+        Get.offAll(HomeScreen());
       }
     } catch (e) {
       print("error$e");

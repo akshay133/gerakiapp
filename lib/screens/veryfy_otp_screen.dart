@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
@@ -19,7 +20,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   AuthController controller = Get.find();
   final phone = Get.arguments;
   String _verificationCode = '';
-  final TextEditingController _pinPutController = TextEditingController();
+  TextEditingController _pinPutController = TextEditingController();
   StreamController<ErrorAnimationType>? errorController;
   bool hasError = false;
   final formKey = GlobalKey<FormState>();
@@ -48,13 +49,18 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   @override
   void initState() {
     errorController = StreamController<ErrorAnimationType>();
-    onTapRecognizer = TapGestureRecognizer()..onTap = () {};
+    onTapRecognizer = TapGestureRecognizer()
+      ..onTap = () {
+        print("pressed");
+        controller.verifyPhone(phone[0]);
+      };
     super.initState();
   }
 
   @override
   void dispose() {
     errorController!.close();
+
     _timer!.cancel();
     super.dispose();
   }
@@ -69,6 +75,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     );
   }
 
+  final loading = SpinKitCircle(
+    color: Colors.white,
+    size: 50.0,
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,17 +174,19 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                 // conditions for validating
                 if (_verificationCode.length != 6) {
                   print("otp$_verificationCode");
-                  errorController!.add(ErrorAnimationType
-                      .shake); // Triggering error shake animation
+                  errorController!.add(ErrorAnimationType.shake);
+                  // Triggering error shake animation
+
                   setState(() {
                     hasError = true;
                   });
                 } else {
                   setState(() {
                     hasError = false;
+
                     print("otp$_verificationCode");
-                    controller.verifyOTP(_verificationCode);
                   });
+                  controller.verifyOTP(_verificationCode);
                 }
               }),
               SizedBox(
