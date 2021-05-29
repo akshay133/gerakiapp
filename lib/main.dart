@@ -1,11 +1,9 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
-import 'package:geraki/screens/home_screen.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -15,25 +13,9 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  //getx dependecies injection
   final authController = Get.put(AuthController());
-  //end
-  FirebaseAuth? _auth;
-  User? _user;
-  @override
-  void initState() {
-    _auth = FirebaseAuth.instance;
-    _user = _auth!.currentUser;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -74,7 +56,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: _user == null ? WelcomeScreen() : HomeScreen(),
+      home: WelcomeScreen(),
     );
   }
 }

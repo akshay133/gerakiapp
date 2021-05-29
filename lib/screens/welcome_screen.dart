@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geraki/constants/colors.dart';
+import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
@@ -30,94 +31,50 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: Align(
                 alignment: AlignmentDirectional.topEnd,
                 child: Container(
-                    color: Colors.white, child: Image.asset(welcomeImg)),
+                    color: whiteColor, child: Image.asset(welcomeImg)),
               ),
             ),
-            Container(
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Welcome to',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                        Text(
-                          'Geraki',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                      ],
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                color: whiteColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            welcome1,
+                            style: Theme.of(context).textTheme.headline6
+                          ),
+                          Text(
+                            welcome2,
+                            style: Theme.of(context).textTheme.headline6
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.to(SignUpScreen());
-                        },
-                        child: Container(
-                          width: screenWidth - 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: primaryColor),
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(18),
-                            child: Center(
-                              child: Text(
-                                createAcc,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        button(createAcc, context, (){Get.to(SignUpScreen());}),
+                        SizedBox(
+                          height: 18,
                         ),
-                      ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: screenWidth - 60,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Color(0xffE0E0E0), width: 1),
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8)),
-                          child: Padding(
-                            padding: const EdgeInsets.all(18),
-                            child: Center(
-                              child: Text(
-                                login,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                        whiteButton(login, context, (){}),
+                        TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              cntinueGuest,
+                              style: Theme.of(context).textTheme.subtitle1),
                             ),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            cntinueGuest,
-                            style: TextStyle(color: Color(0xff9C9C9C)),
-                          )),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             )
           ],

@@ -32,6 +32,23 @@ Widget button(String btnText, BuildContext context, onPressed) {
     ),
   );
 }
+Widget whiteButton(String btnText, BuildContext context, onPressed) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    style: ElevatedButton.styleFrom(
+        primary: whiteColor,
+        minimumSize: Size(
+          double.infinity,
+          screenHeight * 0.065,
+        )),
+    child: Text(
+      btnText,
+      style: Theme.of(context).textTheme.subtitle2!.copyWith(
+        color: headlineColor
+      ),
+    ),
+  );
+}
 
 Widget SmallButton(String btnText, BuildContext context, onPressed) {
   return ElevatedButton(
@@ -46,5 +63,13 @@ Widget SmallButton(String btnText, BuildContext context, onPressed) {
           screenWidth / 4,
           screenHeight * 0.065,
         )),
+  );
+}
+
+Widget buildCircleAvatar(ImageProvider image) {
+  return CircleAvatar(
+    radius: screenWidth/ 5,
+    backgroundColor: textFieldColor,
+    backgroundImage: image,
   );
 }
