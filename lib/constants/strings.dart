@@ -10,3 +10,5 @@ const String getcodCall = "Get Code by Call";
 const String verify = "Verify";
 const String createAcc = 'Create Account';
 const String cntinueGuest='CONTINUE AS GUEST';
+const String welcome1='Welcome to';
+const String welcome2='Geraki';

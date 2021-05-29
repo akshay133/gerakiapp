@@ -2,7 +2,9 @@
     package="com.example.geraki">
    <application
         android:label="geraki"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
