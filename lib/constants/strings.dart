@@ -12,6 +12,10 @@ const String createAcc = 'Create Account';
 const String cntinueGuest = 'CONTINUE AS GUEST';
 const String appname = "Geraki";
 const String sostxt = "SOS";
+
+const String welcome1 = 'Welcome to';
+const String welcome2 = 'Geraki';
+
 const String mytickets = "My Tickets";
 const String feeds = "Feeds";
 const String pending = "Pending";
