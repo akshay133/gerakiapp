@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
-import 'package:geraki/screens/home_screen.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -46,10 +46,24 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: whiteColor,
         textTheme: ThemeData.light().textTheme.copyWith(
               headline5: TextStyle(
-                fontSize: 16,
-                fontFamily: 'CARMEN SANS',
-                color: headlineColor,
-              ),
+                  fontSize: 16,
+                  fontFamily: 'CARMEN SANS',
+                  color: headlineColor,
+                  fontWeight: FontWeight.w500),
+              headline4: TextStyle(
+                  fontSize: 13,
+                  fontFamily: 'CARMEN SANS',
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500),
+              bodyText1: TextStyle(
+                  fontSize: 13,
+                  fontFamily: 'CARMEN SANS',
+                  fontWeight: FontWeight.w400,
+                  color: headline3Color),
+              headline2: TextStyle(
+                  fontSize: 11,
+                  fontFamily: 'CARMEN SANS',
+                  color: subtitleColor),
               headline6: TextStyle(
                   fontSize: 22,
                   fontFamily: 'CARMEN SANS',
@@ -74,7 +88,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: _user == null ? WelcomeScreen() : HomeScreen(),
+      home: _user == null ? WelcomeScreen() : HomeScreenMain(),
     );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:geraki/screens/home_screen.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
 
 class AuthController extends GetxController {
@@ -38,7 +38,7 @@ class AuthController extends GetxController {
       if (credential.user != null) {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAll(HomeScreen());
+        Get.offAll(HomeScreenMain());
       }
     } catch (e) {
       print("error$e");

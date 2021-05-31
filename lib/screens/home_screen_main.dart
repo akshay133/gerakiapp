@@ -1,76 +1,52 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geraki/constants/colors.dart';
+import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/controller/navigation_controller.dart';
+import 'package:geraki/screens/camera_screen.dart';
+import 'package:geraki/screens/dashboard_screen.dart';
+import 'package:geraki/screens/feeds_screen.dart';
+import 'package:geraki/screens/myTickets_screen.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreenMain extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenMainState createState() => _HomeScreenMainState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenMainState extends State<HomeScreenMain> {
   AuthController controller = Get.find();
 
-  bool isExpanded = false;
   final NavController navController = Get.put(NavController());
   final List bodyContent = [
-    Text("dfdf"),
-    Text('sds'),
-    Text('fdf'),
-    Text('fdg')
+    DashboardScreen(),
+    CameraScreen(),
+    MyTicketsScreen(),
+    FeedsScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 5,
-        centerTitle: true,
-        title: Text(
-          appname,
-        ),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: whiteColor,
-                ),
-                shape: BoxShape.circle),
-            child: CircleAvatar(
-              backgroundImage: CachedNetworkImageProvider(
-                  "https://miro.medium.com/max/759/1*YQNS4UzYLRO0CumGdIfU9g.jpeg"),
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(onPressed: () {}, icon: Icon(Icons.notifications_none))
-        ],
-      ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          setState(() {
-            isExpanded = !isExpanded;
-          });
-        },
-        icon: isExpanded ? SvgPicture.asset(sos) : null,
-        label: isExpanded
-            ? Text(
-                sostxt,
-                style: Theme.of(context).textTheme.subtitle2,
-              )
-            : SvgPicture.asset(sos),
+        onPressed: () {},
+        icon: SvgPicture.asset(sos),
+        label: Text(
+          sostxt,
+          style: Theme.of(context).textTheme.subtitle2,
+        ),
       ),
       body: Obx(() => Center(
             child: bodyContent.elementAt(navController.selectedIndex),
           )),
       bottomNavigationBar: Obx(() => BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
+            iconSize: screenHeight * 0.035,
+            selectedItemColor: primaryColor,
+            unselectedItemColor: lightGrey,
+            unselectedIconTheme: IconThemeData(size: screenHeight * 0.030),
             items: [
               BottomNavigationBarItem(
                   icon: Icon(
