@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
+import 'package:geraki/screens/profile_setup.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -56,7 +57,7 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: WelcomeScreen(),
+      home: ProfileSetup(),
     );
   }
 }

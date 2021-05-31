@@ -7,10 +7,20 @@ import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
+import 'package:geraki/controller/auth_controller.dart';
+import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
+TextEditingController name=TextEditingController();
+TextEditingController email=TextEditingController();
+TextEditingController date=TextEditingController();
+TextEditingController month=TextEditingController();
+TextEditingController year=TextEditingController();
+TextEditingController address=TextEditingController();
+var radioValue;
+File? photo;
 
 class ProfileSetup extends StatelessWidget {
-
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +36,12 @@ class ProfileSetup extends StatelessWidget {
 
 class Profile extends StatefulWidget {
 
-
-
   @override
   _ProfileState createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  var radioValue;
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +58,8 @@ class _ProfileState extends State<Profile> {
                 height: screenHeight/25,
               ),
               Avatar(),
-              MyTextField(title: 'Full Name',keyBoardType: TextInputType.name, Width: screenWidth,),
-              MyTextField(title: 'Email',keyBoardType: TextInputType.emailAddress, Width: screenWidth,),
+              MyTextField(title: 'Full Name',keyBoardType: TextInputType.name, Width: screenWidth,controller: name,),
+              MyTextField(title: 'Email',keyBoardType: TextInputType.emailAddress, Width: screenWidth,controller: email,),
               GenderRadio(context),
               Padding(
                 padding: const EdgeInsets.only(left: 15,top: 10),
@@ -64,15 +72,17 @@ class _ProfileState extends State<Profile> {
               ),
               Row(
                 children: [
-                  MyTextField(title: 'DD',keyBoardType: TextInputType.number, Width: screenWidth*0.20,),
-                  MyTextField(title: 'MM',keyBoardType: TextInputType.number, Width: screenWidth*0.22,),
-                  MyTextField(title: 'YYYY',keyBoardType: TextInputType.number, Width: screenWidth*0.30,),
+                   MyTextField(title: 'DD',keyBoardType: TextInputType.number, Width: screenWidth*0.20,controller: date,),
+                   MyTextField(title: 'MM',keyBoardType: TextInputType.number, Width: screenWidth*0.22,controller: month,),
+                   MyTextField(title: 'YYYY',keyBoardType: TextInputType.number, Width: screenWidth*0.30,controller: year,),
                 ],
               ),
-              MyTextField(title: 'Address',keyBoardType: TextInputType.streetAddress, Width: screenWidth,),
+             MyTextField(title: 'Address',keyBoardType: TextInputType.streetAddress, Width: screenWidth,controller: address,),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
-                child: button('Submit', context, (){}),
+                child: button('Submit', context, (){
+                  submitDetails();
+                }),
               ),
             ],
           ),
@@ -146,11 +156,14 @@ class MyTextField extends StatelessWidget {
     Key? key,
   required this.title,
   required this.keyBoardType,
-  required this.Width}) : super(key: key);
+  required this.Width,
+    required this.controller,
+  }) : super(key: key);
 
   final String title;
   final TextInputType keyBoardType;
   final double Width;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +177,7 @@ class MyTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
         ),
         child: TextField(
+          controller: controller,
           keyboardType: keyBoardType,
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -189,7 +203,7 @@ class Avatar extends StatefulWidget {
 }
 
 class _AvatarState extends State<Avatar> {
-  File? photo;
+
   @override
   Widget build(BuildContext context) {
    
@@ -208,12 +222,51 @@ class _AvatarState extends State<Avatar> {
           child: (photo==null)
               ? buildCircleAvatar(AssetImage(profileImg))
               : buildCircleAvatar(FileImage(photo!))
-
         )
     );
   }
-
-
 }
 
+AuthController authController = Get.find();
 
+submitDetails()  async {
+
+  if(photo==null || name.text=='' || email.text==''|| date.text==''|| month.text==''|| year.text==''|| address.text==''|| radioValue==null){
+    Get.snackbar(
+      "Please fill all details",
+      "",
+      snackPosition: SnackPosition.BOTTOM,
+    );
+    return;
+  }
+  UploadTask photopath= uploadPhoto();
+
+ final snapshot= await  photopath.whenComplete(() {});
+  final photourl=await snapshot.ref.getDownloadURL();
+
+  authController.firebase.collection('users').doc().set(
+    {
+      'photourl': photourl,
+      'name':name.text,
+      'email':email.text,
+      'gender':radioValue.toString(),
+      'dob':'${date.text}/${month.text}/${year.text}',
+      'address':address.text
+    }
+  );
+}
+
+ uploadPhoto(){
+
+      String filename='files/${photo!.path}';
+    try {
+      final ref = FirebaseStorage.instance.ref(filename);
+
+      UploadTask task = ref.putFile(photo!);
+
+      return task;
+    }
+    catch(e){
+      print(e);
+    }
+}
