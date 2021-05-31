@@ -135,14 +135,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               if (secondHalf.isEmpty)
-                Text(firstHalf)
+                Text(firstHalf,
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: headline3Color))
               else
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
+                      Text(
+                          flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
+                              .copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: headline3Color)),
                       InkWell(
                         onTap: () {
                           setState(() {
@@ -254,14 +266,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               if (secondHalf.isEmpty)
-                Text(firstHalf)
+                Text(firstHalf,
+                    style: Theme.of(context).textTheme.headline4!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                        color: headline3Color))
               else
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(flag ? (firstHalf + "...") : (firstHalf + secondHalf)),
+                      Text(
+                          flag ? (firstHalf + "...") : (firstHalf + secondHalf),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
+                              .copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: headline3Color)),
                       InkWell(
                         onTap: () {
                           setState(() {

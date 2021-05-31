@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -13,9 +15,25 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  //getx dependecies injection
   final authController = Get.put(AuthController());
+  //end
+  FirebaseAuth? _auth;
+  User? _user;
+  @override
+  void initState() {
+    _auth = FirebaseAuth.instance;
+    _user = _auth!.currentUser;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -28,10 +46,19 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: whiteColor,
         textTheme: ThemeData.light().textTheme.copyWith(
               headline5: TextStyle(
-                fontSize: 16,
-                fontFamily: 'CARMEN SANS',
-                color: headlineColor,
-              ),
+                  fontSize: 16,
+                  fontFamily: 'CARMEN SANS',
+                  color: headlineColor,
+                  fontWeight: FontWeight.w500),
+              headline4: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'CARMEN SANS',
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500),
+              headline2: TextStyle(
+                  fontSize: 11,
+                  fontFamily: 'CARMEN SANS',
+                  color: subtitleColor),
               headline6: TextStyle(
                   fontSize: 22,
                   fontFamily: 'CARMEN SANS',
@@ -56,7 +83,7 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: WelcomeScreen(),
+      home: _user == null ? WelcomeScreen() : HomeScreenMain(),
     );
   }
 }
