@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/main.dart';
 import 'package:geraki/screens/preview_screen.dart';
+import 'package:geraki/screens/video_preview_screen.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
@@ -87,10 +89,10 @@ class _CameraScreenState extends State<CameraScreen> {
                       SizedBox(
                         width: screenWidth * 0.015,
                       ),
-                      Text(
-                        recordType == 0 ? "" : "Rec.$_start",
-                        style: TextStyle(color: Color(0xffF61304)),
-                      )
+                      // Text(
+                      //   recordType == 0 ? "" : "Rec.$_start",
+                      //   style: TextStyle(color: Color(0xffF61304)),
+                      // )
                     ],
                   )),
               Positioned(
@@ -111,6 +113,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         iconSize: 30,
                         icon: flashicon,
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           if (flashType == 0) {
                             controller.setFlashMode(FlashMode.torch);
                             flashType = 1;
@@ -138,6 +141,7 @@ class _CameraScreenState extends State<CameraScreen> {
                         iconSize: 30,
                         icon: Icon(Icons.flip_camera_android),
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           cameraType == 0 ? cameraType = 1 : cameraType = 0;
                           setCameraType();
                         },
@@ -156,6 +160,7 @@ class _CameraScreenState extends State<CameraScreen> {
                     children: [
                       buildCemaraElips(
                         () async {
+                          HapticFeedback.lightImpact();
                           final path = join(
                             // Store the picture in the temp directory.
                             // Find the temp directory using the `path_provider` plugin.
@@ -175,22 +180,16 @@ class _CameraScreenState extends State<CameraScreen> {
                       SizedBox(width: screenWidth * 0.03),
                       InkWell(
                         onTap: () async {
+                          HapticFeedback.lightImpact();
                           if (recordType == 0) {
                             await controller.startVideoRecording();
                             recordType = 1;
                             setState(() {
                               videoShape = BoxShape.circle;
-                              startTimer();
                             });
                           } else {
-                            final path = join(
-                              // Store the picture in the temp directory.
-                              // Find the temp directory using the `path_provider` plugin.
-                              (await getTemporaryDirectory()).path,
-                              '${DateTime.now()}.png',
-                            );
-                            Vfile = await controller.stopVideoRecording();
-                            Vfile.saveTo(path);
+                            stopvideo();
+
                             recordType = 0;
                             setState(() {
                               videoShape = BoxShape.circle;
@@ -235,6 +234,22 @@ class _CameraScreenState extends State<CameraScreen> {
         return;
       }
       setState(() {});
+    });
+  }
+
+  stopvideo() async {
+    final path = join(
+      // Store the picture in the temp directory.
+      // Find the temp directory using the `path_provider` plugin.
+      (await getTemporaryDirectory()).path,
+      '${DateTime.now()}.mp4',
+    );
+    Vfile = await controller.stopVideoRecording();
+
+    Vfile.saveTo(path).then((value) {
+      Get.to(VideoPreviewScreen(
+        videoFile: path,
+      ));
     });
   }
 }
