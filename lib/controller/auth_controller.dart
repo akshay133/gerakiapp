@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geraki/screens/profile_setup.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthController extends GetxController {
   var authState = ''.obs;
   String verificationID = '';
   var auth = FirebaseAuth.instance;
+  var firebase=FirebaseFirestore.instance;
 
   verifyPhone(String phone) async {
     try {
