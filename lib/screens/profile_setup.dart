@@ -3,11 +3,13 @@ import 'dart:io';
 import "package:file_picker/file_picker.dart";
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/controller/auth_controller.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -19,6 +21,7 @@ TextEditingController year=TextEditingController();
 TextEditingController address=TextEditingController();
 var radioValue;
 File? photo;
+bool loading=false;
 
 class ProfileSetup extends StatelessWidget {
 
@@ -45,7 +48,13 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return loading
+        ?Center(
+          child: SpinKitCircle(
+      color: primaryColor,
+      size: 50.0,),
+        )
+        :Container(
       child: SingleChildScrollView(
         child: ConstrainedBox(
           constraints: BoxConstraints(
@@ -149,6 +158,66 @@ class _ProfileState extends State<Profile> {
               ],
             );
   }
+  submitDetails()  async {
+
+    if(photo==null || name.text=='' || email.text==''|| date.text==''|| month.text==''|| year.text==''|| address.text==''|| radioValue==null){
+      Get.snackbar(
+        "Please fill all details",
+        "",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+    UploadTask photopath= uploadPhoto();
+    setState(() {
+      loading=true;
+    });
+
+    final snapshot= await  photopath.whenComplete(() {});
+    final photourl=await snapshot.ref.getDownloadURL();
+
+     authController.firebase.collection('users').doc().set(
+        {
+          'photourl': photourl,
+          'name':name.text,
+          'email':email.text,
+          'gender':radioValue.toString(),
+          'dob':'${date.text}/${month.text}/${year.text}',
+          'address':address.text
+        }
+    ).then((value){
+       Get.snackbar(
+         "Profile Details Submitted!!",
+         "",
+         duration: Duration(seconds: 2),
+         snackPosition: SnackPosition.BOTTOM,
+       );
+     });
+
+    setState(() {
+      loading=false;
+    });
+
+
+    Get.to(()=>HomeScreenMain());
+
+  }
+
+  uploadPhoto(){
+
+    String filename='files/${photo!.path}';
+    try {
+      final ref = FirebaseStorage.instance.ref(filename);
+
+      UploadTask task = ref.putFile(photo!);
+
+      return task;
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
 }
 
 class MyTextField extends StatelessWidget {
@@ -193,7 +262,7 @@ class MyTextField extends StatelessWidget {
 }
 
 class Avatar extends StatefulWidget {
-  
+
   const Avatar({
     Key? key,
   }) : super(key: key);
@@ -206,7 +275,7 @@ class _AvatarState extends State<Avatar> {
 
   @override
   Widget build(BuildContext context) {
-   
+
     return Container(
         child: InkWell(
           onTap: () async {
@@ -229,44 +298,3 @@ class _AvatarState extends State<Avatar> {
 
 AuthController authController = Get.find();
 
-submitDetails()  async {
-
-  if(photo==null || name.text=='' || email.text==''|| date.text==''|| month.text==''|| year.text==''|| address.text==''|| radioValue==null){
-    Get.snackbar(
-      "Please fill all details",
-      "",
-      snackPosition: SnackPosition.BOTTOM,
-    );
-    return;
-  }
-  UploadTask photopath= uploadPhoto();
-
- final snapshot= await  photopath.whenComplete(() {});
-  final photourl=await snapshot.ref.getDownloadURL();
-
-  authController.firebase.collection('users').doc().set(
-    {
-      'photourl': photourl,
-      'name':name.text,
-      'email':email.text,
-      'gender':radioValue.toString(),
-      'dob':'${date.text}/${month.text}/${year.text}',
-      'address':address.text
-    }
-  );
-}
-
- uploadPhoto(){
-
-      String filename='files/${photo!.path}';
-    try {
-      final ref = FirebaseStorage.instance.ref(filename);
-
-      UploadTask task = ref.putFile(photo!);
-
-      return task;
-    }
-    catch(e){
-      print(e);
-    }
-}
