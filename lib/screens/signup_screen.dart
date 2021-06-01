@@ -98,6 +98,7 @@ class SignUpScreen extends StatelessWidget {
               style: TextStyle(color: headlineColor),
               decoration: InputDecoration(
                 hintText: '1234567890',
+                labelStyle: TextStyle(color: primaryColor),
                 labelText: 'Enter your Number',
                 border: InputBorder.none,
                 prefix: Padding(

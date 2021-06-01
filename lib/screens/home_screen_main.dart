@@ -29,37 +29,42 @@ class _HomeScreenMainState extends State<HomeScreenMain> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        icon: SvgPicture.asset(sos),
-        label: Text(
-          sostxt,
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
-      ),
-      body: Obx(() => Center(
-        child: bodyContent.elementAt(navController.selectedIndex),
-      )),
-      bottomNavigationBar: Obx(() => BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        iconSize: screenHeight * 0.035,
-        selectedItemColor: primaryColor,
-        unselectedItemColor: lightGrey,
-        unselectedIconTheme: IconThemeData(size: screenHeight * 0.030),
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.grid_view,
-              ),
-              label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.camera_alt), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.description), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.view_agenda), label: "")
-        ],
-        currentIndex: navController.selectedIndex,
-        onTap: (index) => navController.selectedIndex = index,
-      )),
-    );
+    return Obx(() => Scaffold(
+          floatingActionButton: navController.selectedIndex != 1
+              ? FloatingActionButton.extended(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(sos),
+                  label: Text(
+                    sostxt,
+                    style: Theme.of(context).textTheme.subtitle2,
+                  ),
+                )
+              : null,
+          body: Obx(() => Center(
+                child: bodyContent.elementAt(navController.selectedIndex),
+              )),
+          bottomNavigationBar: Obx(() => BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                iconSize: screenHeight * 0.035,
+                selectedItemColor: primaryColor,
+                unselectedItemColor: lightGrey,
+                unselectedIconTheme: IconThemeData(size: screenHeight * 0.030),
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(
+                        Icons.grid_view,
+                      ),
+                      label: ""),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.camera_alt), label: ""),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.description), label: ""),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.view_agenda), label: "")
+                ],
+                currentIndex: navController.selectedIndex,
+                onTap: (index) => navController.selectedIndex = index,
+              )),
+        ));
   }
 }

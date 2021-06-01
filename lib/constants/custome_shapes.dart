@@ -33,6 +33,7 @@ Widget button(String btnText, BuildContext context, onPressed) {
     ),
   );
 }
+
 Widget whiteButton(String btnText, BuildContext context, onPressed) {
   return ElevatedButton(
     onPressed: onPressed,
@@ -44,9 +45,8 @@ Widget whiteButton(String btnText, BuildContext context, onPressed) {
         )),
     child: Text(
       btnText,
-      style: Theme.of(context).textTheme.subtitle2!.copyWith(
-        color: headlineColor
-      ),
+      style:
+          Theme.of(context).textTheme.subtitle2!.copyWith(color: headlineColor),
     ),
   );
 }
@@ -67,16 +67,56 @@ Widget SmallButton(String btnText, BuildContext context, onPressed) {
   );
 }
 
-
 Widget buildCircleAvatar(ImageProvider image) {
   return CircleAvatar(
-    radius: screenWidth/ 5,
+    radius: screenWidth / 5,
     backgroundColor: textFieldColor,
     backgroundImage: image,
   );
 }
 
-PreferredSizeWidget  appbar(String title, String imgUrl, onPressed1, onPressed2) {
+Widget buildCemaraElips(onTap) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      width: screenWidth * 0.15,
+      height: screenHeight * 0.10,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: whiteColor,
+          border: Border.all(color: primaryColor)),
+    ),
+  );
+}
+
+Widget buildRecording(
+  onTap,
+) {
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      width: screenWidth * 0.15,
+      height: screenHeight * 0.10,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: whiteColor,
+          border: Border.all(color: primaryColor)),
+      child: Center(
+        child: Container(
+          width: screenWidth * 0.05,
+          height: screenHeight * 0.05,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xffF61304)
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+PreferredSizeWidget appbar(
+    String title, String imgUrl, onPressed1, onPressed2) {
   return AppBar(
     elevation: 5,
     centerTitle: true,
@@ -103,3 +143,15 @@ PreferredSizeWidget  appbar(String title, String imgUrl, onPressed1, onPressed2)
   );
 }
 
+Widget CircleImg(imgUrl) {
+  return Container(
+    decoration: BoxDecoration(
+        border: Border.all(
+          color: whiteColor,
+        ),
+        shape: BoxShape.circle),
+    child: CircleAvatar(
+      backgroundImage: CachedNetworkImageProvider(imgUrl),
+    ),
+  );
+}
