@@ -84,8 +84,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: ProfileSetup()
-      //_user == null ? WelcomeScreen() : HomeScreenMain(),
+      home: _user == null ? WelcomeScreen() : HomeScreenMain(),
     );
   }
 }
