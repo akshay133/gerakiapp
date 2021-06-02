@@ -1,9 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
@@ -18,7 +17,32 @@ class ReportOffenceScreen extends StatefulWidget {
 }
 
 class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
-  bool loading = false;
+  String dropdownValue = 'Select a category';
+
+  late Position _position;
+  late StreamSubscription<Position> streamSubscription;
+  //late Address _address;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    streamSubscription=Geolocator.getPositionStream(
+      desiredAccuracy: LocationAccuracy.high,
+      distanceFilter: 10).listen((Position position) {
+        print(position);
+        _position=position;
+
+        // final coordinates=Coordinates(_position.latitude, _position.longitude);
+        // convertToAdrress(coordinates).then((value){
+        //   print(value);
+        //   _address=value;
+        //   print(_address.toString());
+        // });
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +59,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                   height: screenHeight * 0.3,
                   child: Image.file(
                     File(widget.imgPath),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   )),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -55,49 +79,49 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                       height: screenHeight * 0.02,
                     ),
                     Container(
-                        padding:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                        width: screenWidth,
-                        decoration: BoxDecoration(
-                            color: textFieldColor,
-                            border: Border.all(color: buttonBorder, width: 1),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          "latitude,longitude",
-                          style: Theme.of(context).textTheme.subtitle1,
-                        )),
+                      width: screenWidth,
+                      decoration: BoxDecoration(
+                          color: textFieldColor,
+                          border: Border.all(color: buttonBorder, width: 1),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: "latitide,logitude",
+                          labelStyle: Theme.of(context).textTheme.subtitle1,
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20.0),
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: screenHeight * 0.02,
                     ),
-                    StreamBuilder<QuerySnapshot>(
-                        stream: FirebaseFirestore.instance
-                            .collection("offenseCategories")
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (!snapshot.hasData) {
-                            return SpinKitCircle(
-                              color: primaryColor,
-                              size: 50,
-                            );
-                          }
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.size,
-                            itemBuilder: (context, index) {
-                              DocumentSnapshot ds = snapshot.data!.docs[index];
-                              return DropdownSearch<String>(
-                                  mode: Mode.MENU,
-                                  showSelectedItem: true,
-                                  items: [ds["a"], ds["b"], ds["c"], ds["d"]],
-                                  label: "Select category",
-                                  hint: "country in menu mode",
-                                  popupItemDisabled: (String s) =>
-                                      s.startsWith('I'),
-                                  onChanged: print,
-                                  selectedItem: ds["a"]);
-                            },
-                          );
-                        }),
+                    // Container(
+                    //   width: screenWidth,
+                    //   decoration: BoxDecoration(
+                    //       color: textFieldColor,
+                    //       border: Border.all(color: buttonBorder, width: 1),
+                    //       borderRadius: BorderRadius.circular(10)),
+                    //   child: DropdownButton<String>(
+                    //     underline: SizedBox(),
+                    //     isExpanded: true,
+                    //     value: dropdownValue.isNotEmpty ? dropdownValue : null,
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         dropdownValue = newValue!;
+                    //       });
+                    //     },
+                    //     items: <String>['First', 'Second', 'Third', 'Fourth']
+                    //         .map<DropdownMenuItem<String>>((String value) {
+                    //       return DropdownMenuItem<String>(
+                    //         value: value,
+                    //         child: Text(value),
+                    //       );
+                    //     }).toList(),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: screenHeight * 0.02,
                     ),
@@ -134,8 +158,12 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
       ),
     );
   }
-  var firebase = FirebaseFirestore.instance;
-    submitOffense()async{
 
-    }
+
 }
+
+//  Future<Address>convertToAdrress(Coordinates coordinates) async {
+//   List<Address> addresses=await Geocoder.local.findAddressesFromCoordinates(coordinates);
+//   print(addresses.first);
+//   return addresses.first;
+// }
