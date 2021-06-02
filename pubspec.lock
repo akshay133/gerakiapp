@@ -237,6 +237,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  flutter_card_swipper:
+    dependency: "direct main"
+    description:
+      name: flutter_card_swipper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -289,13 +296,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  geocoder:
-    dependency: "direct main"
-    description:
-      name: geocoder
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   geolocator:
     dependency: "direct main"
     description:
