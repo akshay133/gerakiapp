@@ -7,7 +7,7 @@ class AuthController extends GetxController {
   var authState = ''.obs;
   String verificationID = '';
   var auth = FirebaseAuth.instance;
-  var firebase=FirebaseFirestore.instance;
+
 
   verifyPhone(String phone) async {
     try {
