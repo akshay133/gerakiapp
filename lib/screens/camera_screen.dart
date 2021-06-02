@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,34 +24,12 @@ class _CameraScreenState extends State<CameraScreen> {
   late XFile Vfile;
   int cameraType = 0;
   int flashType = 0;
-  bool _startRecording = false;
   Icon flashicon = Icon(Icons.flash_on);
   int recordType = 0;
   BoxShape videoShape = BoxShape.circle;
-  final String _assetVideoRecorder = 'assets/images/play.png';
-  final String _assetStopVideoRecorder = 'assets/images/stop.png';
   late String videoPath;
   late VideoPlayerController videoController;
   late VoidCallback videoPlayerListener;
-  late Timer _timer;
-  int _start = 0;
-  void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 60) {
-          setState(() {
-            timer.cancel();
-          });
-        } else {
-          setState(() {
-            _start++;
-          });
-        }
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -64,7 +40,6 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() {
     controller.dispose();
-    _timer.cancel();
     super.dispose();
   }
 
@@ -75,10 +50,10 @@ class _CameraScreenState extends State<CameraScreen> {
       child: Stack(
         children: [
           Container(
-            height : screenHeight,
+            height: screenHeight,
             child: AspectRatio(
-                aspectRatio: controller.value.aspectRatio,
-                child: CameraPreview(controller),
+              aspectRatio: 16 / 9,
+              child: CameraPreview(controller),
             ),
           ),
           Positioned(
@@ -91,10 +66,6 @@ class _CameraScreenState extends State<CameraScreen> {
                   SizedBox(
                     width: screenWidth * 0.015,
                   ),
-                  // Text(
-                  //   recordType == 0 ? "" : "Rec.$_start",
-                  //   style: TextStyle(color: Color(0xffF61304)),
-                  // )
                 ],
               )),
           Positioned(
