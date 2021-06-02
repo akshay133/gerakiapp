@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/home_screen_main.dart';
-import 'package:geraki/screens/profile_setup.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
@@ -44,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
         primaryColor: primaryColor,
         accentColor: primaryColor,
         fontFamily: 'CARMEN SANS',

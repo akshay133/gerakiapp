@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:geraki/constants/strings.dart';
 import 'package:geraki/main.dart';
 import 'package:geraki/screens/preview_screen.dart';
 import 'package:geraki/screens/video_preview_screen.dart';
@@ -84,8 +85,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   left: 10,
                   child: Row(
                     children: [
-                      CircleImg(
-                          "https://blueandgreentomorrow.com/wp-content/uploads/2017/12/sustainable-roads-motorways.jpg"),
+                      CircleImg(profileUrl),
                       SizedBox(
                         width: screenWidth * 0.015,
                       ),

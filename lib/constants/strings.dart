@@ -18,3 +18,4 @@ const String mytickets = "My Tickets";
 const String feeds = "Feeds";
 const String pending = "Pending";
 const String resolved = "Resolved";
+String? profileUrl = "";
