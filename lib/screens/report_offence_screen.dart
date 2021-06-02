@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
@@ -23,6 +25,8 @@ class ReportOffenceScreen extends StatefulWidget {
 
 class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   bool loading = false;
+  late Position _position;
+  late StreamSubscription<Position> streamSubscription;
   late VideoPlayerController _controller;
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
@@ -34,6 +38,19 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
+    streamSubscription = Geolocator.getPositionStream(
+            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)
+        .listen((Position position) {
+      print(position);
+      _position = position;
+
+      // final coordinates=Coordinates(_position.latitude, _position.longitude);
+      // convertToAdrress(coordinates).then((value){
+      //   print(value);
+      //   _address=value;
+      //   print(_address.toString());
+      // });
+    });
     super.initState();
   }
 
