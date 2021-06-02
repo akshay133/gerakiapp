@@ -10,11 +10,12 @@ import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 class ReportOffenceScreen extends StatefulWidget {
-  final String imgPath;
+  final String file;
 
-  ReportOffenceScreen({required this.imgPath});
+  ReportOffenceScreen({required this.file});
 
   @override
   _ReportOffenceScreenState createState() => _ReportOffenceScreenState();
@@ -22,9 +23,27 @@ class ReportOffenceScreen extends StatefulWidget {
 
 class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   bool loading = false;
+  late VideoPlayerController _controller;
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
   late String selectedValue;
+  @override
+  void initState() {
+    _controller = VideoPlayerController.file(File(widget.file))
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    description.dispose();
+    title.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +62,47 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
             : SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                        width: screenWidth,
-                        height: screenHeight * 0.3,
-                        child: Image.file(
-                          File(widget.imgPath),
-                          fit: BoxFit.fill,
-                        )),
+                    _controller.value.isInitialized
+                        ? Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 3 / 2,
+                                child: VideoPlayer(_controller),
+                              ),
+                              Positioned(
+                                  bottom: screenHeight * 0.01,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: primaryColor),
+                                      color: whiteColor.withOpacity(0.3),
+                                    ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _controller.value.isPlaying
+                                                ? _controller.pause()
+                                                : _controller.play();
+                                          });
+                                        },
+                                        icon: Icon(
+                                          _controller.value.isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow,
+                                          color: whiteColor,
+                                        )),
+                                  ))
+                            ],
+                          )
+                        : AspectRatio(
+                            aspectRatio: 3 / 2,
+                            child: Image.file(
+                              File(widget.file),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                     Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
@@ -224,7 +277,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
     try {
       final ref = FirebaseStorage.instance.ref(filename);
 
-      UploadTask task = ref.putFile(File(widget.imgPath));
+      UploadTask task = ref.putFile(File(widget.file));
 
       return task;
     } catch (e) {

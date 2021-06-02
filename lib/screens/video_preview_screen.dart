@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
+import 'package:geraki/screens/report_offence_screen.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPreviewScreen extends StatefulWidget {
@@ -80,6 +82,7 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
                   setState(() {
                     _isSelected = selected;
                   });
+                  Get.to(ReportOffenceScreen(file: widget.videoFile));
                 },
                 // onDeleted: () {},
               ))
