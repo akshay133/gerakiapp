@@ -238,6 +238,8 @@ class _ProfileState extends State<Profile> {
     final photourl = await snapshot.ref.getDownloadURL();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("profileUrl", photourl);
+    prefs.setString("uid", uid);
+    prefs.setString("username", name.text);
     firebase.collection('users').doc(uid).set({
       'photourl': photourl,
       'name': name.text,

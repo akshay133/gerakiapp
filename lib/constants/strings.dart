@@ -19,3 +19,5 @@ const String feeds = "Feeds";
 const String pending = "Pending";
 const String resolved = "Resolved";
 String? profileUrl = "";
+String? uid = "";
+String? name = "";

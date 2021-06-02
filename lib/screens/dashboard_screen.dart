@@ -25,14 +25,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool flag = true;
   late SharedPreferences prefs;
 
-  getProfileUrl() async {
+  getUserDataLocally() async {
     prefs = await SharedPreferences.getInstance();
     profileUrl = prefs.getString("profileUrl");
+    uid = prefs.getString("uid");
+    name = prefs.getString("username");
   }
 
   @override
   void initState() {
-    getProfileUrl();
+    getUserDataLocally();
     super.initState();
   }
 

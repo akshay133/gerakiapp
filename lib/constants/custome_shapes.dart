@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:geraki/screens/profile_screen.dart';
+import 'package:get/get.dart';
 
 List<BoxShadow> shadows = [
   BoxShadow(
@@ -105,10 +107,8 @@ Widget buildRecording(
         child: Container(
           width: screenWidth * 0.05,
           height: screenHeight * 0.05,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xffF61304)
-          ),
+          decoration:
+              BoxDecoration(shape: BoxShape.circle, color: Color(0xffF61304)),
         ),
       ),
     ),
@@ -125,14 +125,19 @@ PreferredSizeWidget appbar(
     ),
     leading: Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: whiteColor,
-            ),
-            shape: BoxShape.circle),
-        child: CircleAvatar(
-          backgroundImage: CachedNetworkImageProvider(imgUrl),
+      child: InkWell(
+        onDoubleTap: () {
+          Get.to(ProfileScreen());
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: whiteColor,
+              ),
+              shape: BoxShape.circle),
+          child: CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(imgUrl),
+          ),
         ),
       ),
     ),

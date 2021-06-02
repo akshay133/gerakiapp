@@ -32,9 +32,7 @@ class _HomeScreenMainState extends State<HomeScreenMain> {
     return Obx(() => Scaffold(
           floatingActionButton: navController.selectedIndex != 1
               ? FloatingActionButton.extended(
-                  onPressed: () async {
-                    await controller.auth.signOut();
-                  },
+                  onPressed: () async {},
                   icon: SvgPicture.asset(sos),
                   label: Text(
                     sostxt,
