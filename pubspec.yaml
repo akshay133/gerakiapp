@@ -45,6 +45,8 @@ dependencies:
   firebase_storage: ^8.1.0
   flutter_sound: ^8.1.4
   readmore: ^2.1.0
+  shared_preferences: ^2.0.6
+  dropdown_search: ^0.6.1
 
 
 dev_dependencies:

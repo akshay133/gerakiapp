@@ -15,6 +15,7 @@ import 'package:geraki/constants/images.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 TextEditingController name = TextEditingController();
 TextEditingController email = TextEditingController();
@@ -235,7 +236,8 @@ class _ProfileState extends State<Profile> {
 
     final snapshot = await photopath.whenComplete(() {});
     final photourl = await snapshot.ref.getDownloadURL();
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("profileUrl", photourl);
     firebase.collection('users').doc(uid).set({
       'photourl': photourl,
       'name': name.text,

@@ -21,11 +21,7 @@ class _MyTicketsScreenState extends State<MyTicketsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appbar(
-          mytickets,
-          "https://www.history.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY3MzMwNTQ0NDgzMzEzNDg5/tdih-steve-jobs-gettyimages-101805829.jpg",
-          () {},
-          () {}),
+      appBar: appbar(mytickets, profileUrl!, () {}, () {}),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

@@ -9,6 +9,7 @@ import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:readmore/readmore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -22,27 +23,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
   late String description;
 
   bool flag = true;
+  late SharedPreferences prefs;
+
+  getProfileUrl() async {
+    prefs = await SharedPreferences.getInstance();
+    profileUrl = prefs.getString("profileUrl");
+  }
+
   @override
   void initState() {
+    getProfileUrl();
     super.initState();
-
-    // if (description.length > 100) {
-    //   firstHalf = description.substring(0, 100);
-    //   secondHalf = description.substring(100, description.length);
-    // } else {
-    //   firstHalf = description;
-    //   secondHalf = "";
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appbar(
-            appname,
-            "https://www.history.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTY3MzMwNTQ0NDgzMzEzNDg5/tdih-steve-jobs-gettyimages-101805829.jpg",
-            () {},
-            () {}),
+        appBar: appbar(appname, profileUrl!, () {}, () {}),
         body: Container(
             padding: EdgeInsets.only(
               top: 12,

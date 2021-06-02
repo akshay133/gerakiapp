@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
         primaryColor: primaryColor,
         accentColor: primaryColor,
         fontFamily: 'CARMEN SANS',
