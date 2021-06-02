@@ -9,6 +9,7 @@ import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
+import 'package:geraki/screens/camera_screen.dart';
 
 late List<CameraDescription> cameras;
 void main() async {
