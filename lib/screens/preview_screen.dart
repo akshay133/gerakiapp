@@ -48,7 +48,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                       setState(() {
                         _isSelected = selected;
                       });
-                      Get.to(ReportOffenceScreen(imgPath: widget.imagePath));
+                      Get.to(ReportOffenceScreen(file: widget.imagePath));
                     },
                     // onDeleted: () {},
                   )),
