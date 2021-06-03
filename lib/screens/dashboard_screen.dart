@@ -41,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appbar(appname, profileUrl!, () {}, () {}),
+        appBar: appbar(appname, profileUrl!, () async {}, () {}),
         body: Container(
             padding: EdgeInsets.only(
               top: 12,
@@ -99,7 +99,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               .headline4,
                                         ),
                                         Text(
-                                          ds["location"].toString(),
+                                          ds["addressFromLatLong"].toString(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline2,
@@ -175,10 +175,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               fontSize: 14,
                                               color: headline3Color)),
                                 ],
-                              )
-
-
-                              )
+                              ))
                         ]);
                       });
                 })));

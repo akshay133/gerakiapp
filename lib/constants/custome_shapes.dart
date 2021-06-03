@@ -74,6 +74,7 @@ Widget buildCircleAvatar(ImageProvider image) {
     radius: screenWidth / 5,
     backgroundColor: textFieldColor,
     backgroundImage: image,
+    foregroundColor: subtitleColor,
   );
 }
 

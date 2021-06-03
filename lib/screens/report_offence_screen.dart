@@ -5,11 +5,13 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/strings.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -25,7 +27,7 @@ class ReportOffenceScreen extends StatefulWidget {
 class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   bool loading = false;
   Position? _currentPosition;
-  late String _currentAddress;
+  String _currentAddress = "";
   String _latitude = "";
   String _longitude = "";
   late VideoPlayerController _controller;
@@ -34,15 +36,36 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   late String selectedValue;
   getCurrentLocation() {
     Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
+            desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: true)
         .then((position) {
       setState(() {
         _currentPosition = position;
+        print(_currentPosition);
         _latitude = _currentPosition!.latitude.toString();
         _longitude = _currentPosition!.longitude.toString();
+        _getAddressFromLatLng();
       });
+    }).catchError((e) {
+      print(e);
     });
+  }
+
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _currentPosition!.latitude, _currentPosition!.longitude);
+
+      Placemark place = placemarks[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.locality}, ${place.postalCode}, ${place.country}";
+        print("address:$_currentAddress");
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -149,7 +172,9 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                                       Border.all(color: buttonBorder, width: 1),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Text(
-                                "latitude : $_latitude,longitude:$_longitude",
+                                _currentPosition == null
+                                    ? "loading..."
+                                    : "latitude : $_latitude,longitude:$_longitude",
                                 style: Theme.of(context).textTheme.subtitle1,
                               )),
                           SizedBox(
@@ -263,6 +288,12 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
 
   var firebase = FirebaseFirestore.instance;
   submitOffense() async {
+    if (title.text.isEmpty ||
+        description.text.isEmpty ||
+        selectedValue.isEmpty) {
+      return Get.snackbar("Please enter all details!", "",
+          snackPosition: SnackPosition.BOTTOM);
+    }
     UploadTask photopath = uploadPhoto();
     setState(() {
       loading = true;
@@ -270,7 +301,9 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
     final snapshot = await photopath.whenComplete(() {});
     final ticketImgUrl = await snapshot.ref.getDownloadURL();
     firebase.collection("tickets").doc(uid).set({
-      "location": {_latitude, _longitude},
+      "lat": _latitude,
+      "long": _longitude,
+      "addressFromLatLong": _currentAddress,
       "profileUrl": profileUrl,
       "ticketDesc": description.text,
       "ticketImgUrl": ticketImgUrl,
@@ -287,6 +320,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
         duration: Duration(seconds: 2),
         snackPosition: SnackPosition.BOTTOM,
       );
+      Get.offAll(HomeScreenMain(), transition: Transition.cupertino);
     });
   }
 
