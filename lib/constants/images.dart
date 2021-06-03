@@ -5,3 +5,5 @@ const String sos = 'assets/images/sos.svg';
 const String profileImg = 'assets/images/profile1.png';
 const String comment = 'assets/images/comment.svg';
 const String share = 'assets/images/share.svg';
+const String done = "assets/images/done.svg";
+const String doneCheck = "assets/images/done_check.svg";

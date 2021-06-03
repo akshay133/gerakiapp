@@ -9,6 +9,7 @@ import 'package:geraki/controller/navigation_controller.dart';
 import 'package:geraki/screens/camera_screen.dart';
 import 'package:geraki/screens/dashboard_screen.dart';
 import 'package:geraki/screens/feeds_screen.dart';
+import 'package:geraki/screens/kyc_screen.dart';
 import 'package:geraki/screens/myTickets_screen.dart';
 import 'package:get/get.dart';
 
@@ -32,7 +33,9 @@ class _HomeScreenMainState extends State<HomeScreenMain> {
     return Obx(() => Scaffold(
           floatingActionButton: navController.selectedIndex != 1
               ? FloatingActionButton.extended(
-                  onPressed: () async {},
+                  onPressed: () {
+                    Get.to(KycScreen());
+                  },
                   icon: SvgPicture.asset(sos),
                   label: Text(
                     sostxt,

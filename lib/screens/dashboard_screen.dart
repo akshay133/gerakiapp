@@ -176,42 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               color: headline3Color)),
                                 ],
                               )
-                              // Text(
-                              //     flag
-                              //         ? (firstHalf + "...")
-                              //         : (firstHalf + secondHalf),
-                              //     style: Theme.of(context)
-                              //         .textTheme
-                              //         .headline4!
-                              //         .copyWith(
-                              //             fontWeight: FontWeight.w400,
-                              //             fontSize: 14,
-                              //             color: headline3Color)),
-                              // InkWell(
-                              //   onTap: () {
-                              //     setState(() {
-                              //       flag = !flag;
-                              //     });
-                              //   },
-                              //   child: Row(
-                              //     mainAxisAlignment:
-                              //         MainAxisAlignment.spaceBetween,
-                              //     children: [
-                              //       Text(
-                              //         '1 day ago',
-                              //         style: Theme.of(context)
-                              //             .textTheme
-                              //             .headline2,
-                              //       ),
-                              //       Text(
-                              //         flag ? "read more" : "show less",
-                              //         style: Theme.of(context)
-                              //             .textTheme
-                              //             .headline2,
-                              //       ),
-                              //     ],
-                              //   ),
-                              // )
+
 
                               )
                         ]);

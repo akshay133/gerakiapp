@@ -155,7 +155,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                           ),
                           StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
-                                  .collection("offenseCategories")
+                                  .collection("kycCategories")
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
