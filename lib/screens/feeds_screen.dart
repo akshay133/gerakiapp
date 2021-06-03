@@ -7,6 +7,7 @@ import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
+import 'package:readmore/readmore.dart';
 
 class FeedsScreen extends StatelessWidget {
   @override
@@ -15,52 +16,73 @@ class FeedsScreen extends StatelessWidget {
       appBar: appbar(feeds, profileUrl!, () {}, () {}),
       body: Container(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('feeds').snapshots(),
-          builder: (context,snapshot) {
-            if (!snapshot.hasData) {
-              return SpinKitCircle(
+            stream: FirebaseFirestore.instance.collection('feeds').snapshots(),
+            builder: (context,snapshot) {
+               if (!snapshot.hasData) {
+                return SpinKitCircle(
                 color: primaryColor,
                 size: 50,
               );
             }
-            return Swiper(
-              itemHeight: screenHeight,
-              itemWidth: screenWidth,
-              //layout: SwiperLayout.STACK,
-              pagination: SwiperPagination(
-                  alignment: Alignment.bottomCenter,
-                  builder: SwiperPagination.dots),
-              // //control: new SwiperControl(),
-              itemCount: snapshot.data!.size,
-              itemBuilder: (context, index) {
-                DocumentSnapshot ds = snapshot.data!.docs[index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: ds["feedImgUrl"],
-                      height: screenHeight*0.55,
-                      width: screenWidth,
-                      fit: BoxFit.fill,
+            return Container(
+              child: SingleChildScrollView(
+                 child: ConstrainedBox(
+                   constraints: BoxConstraints(
+                      maxHeight: screenHeight,
+                       minWidth: screenWidth),
+                  child: Container(
+                    child: Swiper(
+                      //itemHeight: screenHeight,
+                      itemWidth: screenWidth,
+                      //layout: SwiperLayout.STACK,
+                      pagination: SwiperPagination(
+                          alignment: Alignment.topCenter,
+                          builder: SwiperPagination.dots),
+                      // //control: new SwiperControl(),
+                      itemCount: snapshot.data!.size,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot ds = snapshot.data!.docs[index];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl: ds["feedImgUrl"],
+                              height: screenHeight*0.55,
+                              width: screenWidth,
+                              fit: BoxFit.fill,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),
+                              child: Text(
+                                ds["feedTitle"],
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context).textTheme.headline5!.copyWith(
+                                fontSize: 20
+                              ),),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+                              child: ReadMoreText(ds["feedDesc"],
+                                  trimLines: 2,
+                                  colorClickableText: Colors.pink,
+                                  trimMode: TrimMode.Line,
+                                  trimCollapsedText: '...Read more',
+                                  trimExpandedText: ' Less',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                      color: headline3Color)),
+                            )
+                          ],
+                        );
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
-                      child: Text(
-                        ds["feedTitle"],
-                      textAlign: TextAlign.left,
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                        fontSize: 20
-                      ),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
-                      child: Text(ds["feedDesc"],
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.subtitle1),
-                    )
-                  ],
-                );
-              },
+                  ),
+                ),
+              ),
             );
           }),
           )
