@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,12 +24,27 @@ class ReportOffenceScreen extends StatefulWidget {
 
 class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   bool loading = false;
-  late Position _position;
-  late StreamSubscription<Position> streamSubscription;
+  Position? _currentPosition;
+  late String _currentAddress;
+  String _latitude = "";
+  String _longitude = "";
   late VideoPlayerController _controller;
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
   late String selectedValue;
+  getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((position) {
+      setState(() {
+        _currentPosition = position;
+        _latitude = _currentPosition!.latitude.toString();
+        _longitude = _currentPosition!.longitude.toString();
+      });
+    });
+  }
+
   @override
   void initState() {
     _controller = VideoPlayerController.file(File(widget.file))
@@ -38,19 +52,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
-    streamSubscription = Geolocator.getPositionStream(
-            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)
-        .listen((Position position) {
-      print(position);
-      _position = position;
-
-      // final coordinates=Coordinates(_position.latitude, _position.longitude);
-      // convertToAdrress(coordinates).then((value){
-      //   print(value);
-      //   _address=value;
-      //   print(_address.toString());
-      // });
-    });
+    getCurrentLocation();
     super.initState();
   }
 
@@ -147,7 +149,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                                       Border.all(color: buttonBorder, width: 1),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Text(
-                                "latitude,longitude",
+                                "latitude : $_latitude,longitude:$_longitude",
                                 style: Theme.of(context).textTheme.subtitle1,
                               )),
                           SizedBox(
@@ -155,7 +157,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                           ),
                           StreamBuilder<QuerySnapshot>(
                               stream: FirebaseFirestore.instance
-                                  .collection("kycCategories")
+                                  .collection("offenseCategories")
                                   .snapshots(),
                               builder: (context, snapshot) {
                                 if (!snapshot.hasData) {
@@ -268,7 +270,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
     final snapshot = await photopath.whenComplete(() {});
     final ticketImgUrl = await snapshot.ref.getDownloadURL();
     firebase.collection("tickets").doc(uid).set({
-      "location": "4,8",
+      "location": {_latitude, _longitude},
       "profileUrl": profileUrl,
       "ticketDesc": description.text,
       "ticketImgUrl": ticketImgUrl,

@@ -36,10 +36,6 @@ class ProfileSetup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {},
-        ),
         title: Text('Profile'),
       ),
       body: Profile(),
@@ -267,7 +263,7 @@ class _ProfileState extends State<Profile> {
 
   uploadPhoto() {
     DateTime time = DateTime.now();
-    String filename = 'files/${uid + time.toString()}';
+    String filename = 'files/userImages/${uid + time.toString()}';
     try {
       final ref = FirebaseStorage.instance.ref(filename);
 
