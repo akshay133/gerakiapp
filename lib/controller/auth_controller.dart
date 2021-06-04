@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geraki/screens/profile_setup.dart';
 import 'package:get/get.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthController extends GetxController {
   var authState = ''.obs;
   String verificationID = '';
   var auth = FirebaseAuth.instance;
-
 
   verifyPhone(String phone) async {
     try {
@@ -40,7 +38,7 @@ class AuthController extends GetxController {
       if (credential.user != null) {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAll(ProfileSetup());
+        Get.offAll(ProfileSetup(), transition: Transition.cupertino);
       }
     } catch (e) {
       print("error$e");

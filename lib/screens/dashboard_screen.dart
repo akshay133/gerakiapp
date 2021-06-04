@@ -93,7 +93,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          ds["username"],
+                                          ds["tickettitle"],
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline4,
@@ -155,27 +155,46 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ],
                             ),
                           ),
-                          Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ReadMoreText(ds["ticketDesc"],
-                                      trimLines: 2,
-                                      colorClickableText: Colors.pink,
-                                      trimMode: TrimMode.Line,
-                                      trimCollapsedText: '...Read more',
-                                      trimExpandedText: ' Less',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                              color: headline3Color)),
-                                ],
-                              ))
+                          Container(
+                            alignment: Alignment.topLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              children: [
+                                ReadMoreText(ds["ticketDesc"],
+                                    trimLines: 2,
+                                    textAlign: TextAlign.start,
+                                    colorClickableText: Colors.pink,
+                                    trimMode: TrimMode.Line,
+                                    trimCollapsedText: '...Read more',
+                                    moreStyle: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1!
+                                        .copyWith(fontSize: 12),
+                                    lessStyle: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1!
+                                        .copyWith(fontSize: 12),
+                                    trimExpandedText: ' Less',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                            color: headline3Color)),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'created by:${ds["username"]}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle1!
+                                        .copyWith(fontSize: 13),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ]);
                       });
                 })));

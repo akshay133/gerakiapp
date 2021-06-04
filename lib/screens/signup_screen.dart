@@ -124,7 +124,8 @@ class SignUpScreen extends StatelessWidget {
             }
             controller.verifyPhone("+91${_phoneController.text}");
             Get.to(VerifyOtpScreen(),
-                arguments: ["+91${_phoneController.text}"]);
+                arguments: ["+91${_phoneController.text}"],
+                transition: Transition.cupertino);
           })
         ],
       ),
