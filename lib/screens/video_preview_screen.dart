@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/screens/report_offence_screen.dart';
@@ -18,6 +17,7 @@ class VideoPreviewScreen extends StatefulWidget {
 class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
   late VideoPlayerController _controller;
   bool _isSelected = false;
+
   @override
   void initState() {
     super.initState();

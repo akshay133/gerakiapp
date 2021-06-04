@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/home_screen_main.dart';
+import 'package:geraki/screens/veryfy_otp_screen.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 import 'package:geraki/screens/camera_screen.dart';
@@ -88,7 +89,7 @@ class _MyAppState extends State<MyApp> {
           iconTheme: IconThemeData(color: whiteColor),
         ),
       ),
-      home: _user == null ? WelcomeScreen() : HomeScreenMain(),
+      home:  _user == null ? WelcomeScreen() : HomeScreenMain(),
     );
   }
 }

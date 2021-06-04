@@ -11,6 +11,7 @@ import 'package:geraki/screens/dashboard_screen.dart';
 import 'package:geraki/screens/feeds_screen.dart';
 import 'package:geraki/screens/kyc_screen.dart';
 import 'package:geraki/screens/myTickets_screen.dart';
+import 'package:geraki/screens/sos_screen.dart';
 import 'package:get/get.dart';
 
 class HomeScreenMain extends StatefulWidget {
@@ -34,7 +35,9 @@ class _HomeScreenMainState extends State<HomeScreenMain> {
           floatingActionButton: navController.selectedIndex != 1
               ? FloatingActionButton.extended(
                   onPressed: () {
-                    Get.to(KycScreen());
+                    showmyBottomSheet(context);
+
+                    //Get.to(KycScreen());
                   },
                   icon: SvgPicture.asset(sos),
                   label: Text(
