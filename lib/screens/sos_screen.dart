@@ -85,14 +85,14 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
   // ----------------------  Here is the code for recording and playback -------
 
   void record() {
+    print(path);
     _mRecorder!
         .startRecorder(
-      toFile: path,
-      //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+      toFile: path
     )
         .then((value) {
       setState(() {
-        print(path);
+        print("path is $path");
       });
     });
   }
@@ -149,6 +149,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
               Align(
                   alignment: AlignmentDirectional.topEnd,
                   child: IconButton(icon: Icon(Icons.close),onPressed: (){Navigator.pop(context);},)),
+              Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: IconButton(icon: Icon(Icons.delete_forever_outlined),onPressed: (){},)),
               Align(
                 alignment: AlignmentDirectional.center,
                 child: Column(
@@ -209,7 +212,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       "00:$_start",style: Theme.of(context).textTheme.subtitle1,
                     ),
                     ElevatedButton(
-                      onPressed: (){},
+                      onPressed: (){print('send');},
                       child: Text('Send',style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),),
                     )
                   ],
