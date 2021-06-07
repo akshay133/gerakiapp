@@ -50,6 +50,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
         _mRecorderIsInited = true;
       });
     });
+     getPath();
     super.initState();
   }
 
@@ -68,9 +69,11 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
       // Store the picture in the temp directory.
       // Find the temp directory using the `path_provider` plugin.
         (await getTemporaryDirectory()).path,
-    '${DateTime.now()}.png',
+    '${DateTime.now()}.mp3',
     );
+    print("path is $path");
   }
+
   Future<void> openTheRecorder() async {
     if (!kIsWeb) {
       var status = await Permission.microphone.request();
@@ -85,7 +88,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
   // ----------------------  Here is the code for recording and playback -------
 
   void record() {
-    print(path);
+    print("path is $path");
     _mRecorder!
         .startRecorder(
       toFile: path
@@ -114,7 +117,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
     _mPlayer!
         .startPlayer(
         fromURI: path,
-        //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+        codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
         whenFinished: () {
           setState(() {});
         })
@@ -212,7 +215,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       "00:$_start",style: Theme.of(context).textTheme.subtitle1,
                     ),
                     ElevatedButton(
-                      onPressed: (){print('send');},
+                      onPressed: (){print('send');
+                      play();
+                      },
                       child: Text('Send',style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),),
                     )
                   ],
