@@ -45,11 +45,20 @@ class FeedsScreen extends StatelessWidget {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CachedNetworkImage(
-                              imageUrl: ds["feedImgUrl"],
-                              height: screenHeight*0.55,
-                              width: screenWidth,
-                              fit: BoxFit.fill,
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(9)
+                                ),
+                                child: CachedNetworkImage(
+                                  imageUrl: ds["feedImgUrl"],
+                                  height: screenHeight*0.55,
+                                  width: screenWidth,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 8),

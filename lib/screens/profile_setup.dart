@@ -89,12 +89,29 @@ class _ProfileState extends State<Profile> {
                       Width: screenWidth,
                       controller: name,
                     ),
-                    MyTextField(
-                      title: 'Email',
-                      keyBoardType: TextInputType.emailAddress,
-                      Width: screenWidth,
-                      controller: email,
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Container(
+                      width: screenWidth,
+                      decoration: BoxDecoration(
+                          color: textFieldColor,
+                          border: Border.all(color: buttonBorder, width: 1),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.always,
+                        validator: (input) => isValidEmail(input!) ? null : "Check your email",
+                        controller: email,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          labelText: 'Email',
+                          labelStyle: Theme.of(context).textTheme.subtitle1,
+                          contentPadding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        ),
+                      ),
                     ),
+                  ),
                     GenderRadio(context),
                     Padding(
                       padding: const EdgeInsets.only(left: 15, top: 10),
@@ -147,6 +164,13 @@ class _ProfileState extends State<Profile> {
             ),
           );
   }
+
+  bool isValidEmail(String email) {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(email);
+  }
+
 
   Row GenderRadio(BuildContext context) {
     return Row(
