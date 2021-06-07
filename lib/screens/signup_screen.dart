@@ -8,6 +8,7 @@ import 'package:geraki/constants/strings.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/login_screen.dart';
 import 'package:geraki/screens/veryfy_otp_screen.dart';
+import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(signup),
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.clear)),
+        leading: IconButton(onPressed: () {Get.to(WelcomeScreen());}, icon: Icon(Icons.clear)),
         actions: [
           Container(
               alignment: Alignment.center,
