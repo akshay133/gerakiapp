@@ -6,11 +6,11 @@ import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:geraki/controller/auth_controller.dart';
-import 'package:geraki/screens/login_screen.dart';
+import 'package:geraki/screens/signup_screen.dart';
 import 'package:geraki/screens/veryfy_otp_screen.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   TextEditingController _phoneController = TextEditingController();
   AuthController controller = Get.find();
   @override
@@ -18,17 +18,17 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(signup),
+        title: Text(login),
         leading: IconButton(onPressed: () {}, icon: Icon(Icons.clear)),
         actions: [
           Container(
               alignment: Alignment.center,
               padding: EdgeInsets.only(right: 16),
               child: TextButton(
-                child: Text(login,
+                child: Text(signup,
                   style: Theme.of(context).textTheme.subtitle2,),
                 onPressed: (){
-                  Get.to(LoginScreen());
+                  Get.to(SignUpScreen());
                 },
 
               ))
@@ -128,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
               );
             }
             controller.verifyPhone("+91${_phoneController.text}");
-            Get.to(VerifyOtpScreen(fromScreen: signup,),
+            Get.to(VerifyOtpScreen(fromScreen: login,),
                 arguments: ["+91${_phoneController.text}"],
                 transition: Transition.cupertino);
           })

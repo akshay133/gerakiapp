@@ -30,6 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     profileUrl = prefs.getString("profileUrl");
     uid = prefs.getString("uid");
     name = prefs.getString("username");
+
   }
 
   @override

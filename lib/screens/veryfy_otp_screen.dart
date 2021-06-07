@@ -12,6 +12,14 @@ import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
+
+  const VerifyOtpScreen({
+    Key? key,
+    required this.fromScreen
+  }) : super(key: key);
+
+  final String fromScreen;
+
   @override
   _VerifyOtpScreenState createState() => _VerifyOtpScreenState();
 }
@@ -186,7 +194,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
                     print("otp$_verificationCode");
                   });
-                  controller.verifyOTP(_verificationCode);
+                  controller.verifyOTP(_verificationCode,widget.fromScreen);
                 }
               }),
               SizedBox(

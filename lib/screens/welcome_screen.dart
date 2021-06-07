@@ -8,6 +8,8 @@ import 'package:geraki/constants/strings.dart';
 import 'package:geraki/screens/signup_screen.dart';
 import 'package:get/get.dart';
 
+import 'login_screen.dart';
+
 class WelcomeScreen extends StatefulWidget {
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -64,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(
                           height: 18,
                         ),
-                        whiteButton(login, context, (){}),
+                        whiteButton(login, context, (){Get.to(LoginScreen());}),
                         TextButton(
                             onPressed: () {},
                             child: Text(

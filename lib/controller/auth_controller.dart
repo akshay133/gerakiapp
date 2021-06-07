@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geraki/constants/strings.dart';
+import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/profile_setup.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +32,7 @@ class AuthController extends GetxController {
     }
   }
 
-  verifyOTP(String otp) async {
+  verifyOTP(String otp,String screen) async {
     try {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
@@ -38,7 +40,12 @@ class AuthController extends GetxController {
       if (credential.user != null) {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
-        Get.offAll(ProfileSetup(), transition: Transition.cupertino);
+        if(screen==signup){
+          Get.offAll(ProfileSetup(), transition: Transition.cupertino);
+        }
+        else{
+          Get.offAll((HomeScreenMain()), transition: Transition.cupertino);
+        }
       }
     } catch (e) {
       print("error$e");
