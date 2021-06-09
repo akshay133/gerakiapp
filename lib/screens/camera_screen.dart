@@ -5,13 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:geraki/constants/strings.dart';
 import 'package:geraki/main.dart';
 import 'package:geraki/screens/preview_screen.dart';
 import 'package:geraki/screens/video_preview_screen.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-import 'package:video_player/video_player.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -28,7 +28,6 @@ class _CameraScreenState extends State<CameraScreen> {
   int recordType = 0;
   BoxShape videoShape = BoxShape.circle;
   late String videoPath;
-  late VideoPlayerController videoController;
   late VoidCallback videoPlayerListener;
 
   @override
@@ -61,8 +60,7 @@ class _CameraScreenState extends State<CameraScreen> {
               left: 10,
               child: Row(
                 children: [
-                  CircleImg(
-                      "https://blueandgreentomorrow.com/wp-content/uploads/2017/12/sustainable-roads-motorways.jpg"),
+                  CircleImg(profileUrl),
                   SizedBox(
                     width: screenWidth * 0.015,
                   ),
@@ -151,44 +149,44 @@ class _CameraScreenState extends State<CameraScreen> {
                     },
                   ),
                   SizedBox(width: screenWidth * 0.03),
-                  InkWell(
-                    onTap: () async {
-                      HapticFeedback.lightImpact();
-                      if (recordType == 0) {
-                        await controller.startVideoRecording();
-                        recordType = 1;
-                        setState(() {
-                          videoShape = BoxShape.circle;
-                        });
-                      } else {
-                        stopvideo();
-
-                        recordType = 0;
-                        setState(() {
-                          videoShape = BoxShape.circle;
-                        });
-                      }
-                    },
-                    child: Container(
-                      width: screenWidth * 0.15,
-                      height: screenHeight * 0.10,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: whiteColor,
-                          border: Border.all(color: primaryColor)),
-                      child: Center(
-                        child: Container(
-                          width: screenWidth * 0.05,
-                          height: screenHeight * 0.05,
-                          decoration: BoxDecoration(
-                              shape: videoShape,
-                              color: recordType == 0
-                                  ? Color(0xffF61304)
-                                  : Colors.black45),
-                        ),
-                      ),
-                    ),
-                  )
+                  // InkWell(
+                  //   onTap: () async {
+                  //     HapticFeedback.lightImpact();
+                  //     if (recordType == 0) {
+                  //       await controller.startVideoRecording();
+                  //       recordType = 1;
+                  //       setState(() {
+                  //         videoShape = BoxShape.circle;
+                  //       });
+                  //     } else {
+                  //       stopvideo();
+                  //
+                  //       recordType = 0;
+                  //       setState(() {
+                  //         videoShape = BoxShape.circle;
+                  //       });
+                  //     }
+                  //   },
+                  //   child: Container(
+                  //     width: screenWidth * 0.15,
+                  //     height: screenHeight * 0.10,
+                  //     decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         color: whiteColor,
+                  //         border: Border.all(color: primaryColor)),
+                  //     child: Center(
+                  //       child: Container(
+                  //         width: screenWidth * 0.05,
+                  //         height: screenHeight * 0.05,
+                  //         decoration: BoxDecoration(
+                  //             shape: videoShape,
+                  //             color: recordType == 0
+                  //                 ? Color(0xffF61304)
+                  //                 : Colors.black45),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ),

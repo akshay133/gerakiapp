@@ -84,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SmallButton("Logout", context, () async {
                   await FirebaseAuth.instance.signOut().then((value) {
-                   // prefs.clear();
+                    prefs.clear();
                     Get.offAll(SignUpScreen());
                   });
                 })

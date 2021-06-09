@@ -1,4 +1,4 @@
-package com.example.geraki
+package com.amakeinco.geraki
 
 import io.flutter.embedding.android.FlutterActivity
 

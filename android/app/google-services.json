@@ -7,12 +7,28 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:948796898125:android:54fe462dbfde51c8f35504",
+        "mobilesdk_app_id": "1:948796898125:android:9146602a7dd12425f35504",
         "android_client_info": {
-          "package_name": "com.example.geraki"
+          "package_name": "com.amakeinco.geraki"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "948796898125-hp80mkrabd5bvh9fn8p9o9f6qdhi7tvm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amakeinco.geraki",
+            "certificate_hash": "ae88ecd02068c73b11d59c6a87ffa3d45893cfac"
+          }
+        },
+        {
+          "client_id": "948796898125-mjuv31273b7o6us884tglr9hri78r5lp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amakeinco.geraki",
+            "certificate_hash": "4dcb4f2fcab42312185d93ed2c0e085774433144"
+          }
+        },
         {
           "client_id": "948796898125-jj8qk26fa4aas56npdihtbsboeluqiqo.apps.googleusercontent.com",
           "client_type": 3

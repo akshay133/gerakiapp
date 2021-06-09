@@ -21,3 +21,4 @@ const String resolved = "Resolved";
 String? profileUrl = "";
 String? uid = "";
 String? name = "";
+String? phone = "";

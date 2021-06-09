@@ -127,7 +127,7 @@ PreferredSizeWidget appbar(
     leading: Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onDoubleTap: () {
+        onTap: () {
           Get.to(ProfileScreen());
         },
         child: Container(
@@ -143,7 +143,7 @@ PreferredSizeWidget appbar(
       ),
     ),
     actions: [
-      IconButton(onPressed: onPressed1, icon: Icon(Icons.search)),
+     // IconButton(onPressed: onPressed1, icon: Icon(Icons.search)),
       IconButton(onPressed: onPressed2, icon: Icon(Icons.notifications_none))
     ],
   );

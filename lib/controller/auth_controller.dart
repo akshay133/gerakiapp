@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geraki/constants/strings.dart';
+import 'package:geraki/screens/authority_dashboard.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/profile_setup.dart';
 import 'package:get/get.dart';
@@ -32,7 +33,7 @@ class AuthController extends GetxController {
     }
   }
 
-  verifyOTP(String otp,String screen) async {
+  verifyOTP(String otp, String screen) async {
     try {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
@@ -40,10 +41,9 @@ class AuthController extends GetxController {
       if (credential.user != null) {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
-        if(screen==signup){
+        if (screen == signup) {
           Get.offAll(ProfileSetup(), transition: Transition.cupertino);
-        }
-        else{
+        } else {
           Get.offAll((HomeScreenMain()), transition: Transition.cupertino);
         }
       }
@@ -52,6 +52,19 @@ class AuthController extends GetxController {
 
       Get.snackbar("otp info", "otp code is not correct!",
           snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  login(String email, String password) async {
+    try {
+      await auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        Get.snackbar("Login", "Success", snackPosition: SnackPosition.BOTTOM);
+        Get.offAll(AuthoritiesDashboard());
+      });
+    } catch (e) {
+      print(e);
     }
   }
 }

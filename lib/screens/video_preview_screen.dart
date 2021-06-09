@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/screens/report_offence_screen.dart';
@@ -24,7 +25,9 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
     _controller = VideoPlayerController.file(File(widget.videoFile))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
+        setState(() {
+          _controller.play();
+        });
       });
   }
 

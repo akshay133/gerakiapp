@@ -13,6 +13,7 @@ import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
+import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 
 class ReportOffenceScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
   late String selectedValue;
+
   getCurrentLocation() {
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
@@ -44,8 +46,8 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
         print(_currentPosition);
         _latitude = _currentPosition!.latitude.toString();
         _longitude = _currentPosition!.longitude.toString();
-        _getAddressFromLatLng();
       });
+      _getAddressFromLatLng();
     }).catchError((e) {
       print(e);
     });
@@ -192,21 +194,25 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                                   );
                                 }
                                 return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: snapshot.data!.size,
-                                  itemBuilder: (context, index) {
-                                    DocumentSnapshot ds =
-                                        snapshot.data!.docs[index];
-                                    return DropdownSearch<String>(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data!.size,
+                                    itemBuilder: (context, index) {
+                                      DocumentSnapshot ds =
+                                          snapshot.data!.docs[index];
+                                      return DropdownSearch<String>(
                                         mode: Mode.MENU,
                                         showSelectedItem: true,
                                         items: [
+                                          ds["driveWithoutHelmet"],
+                                          ds["boulder"],
+                                          ds["parking"],
+                                          ds["potHole"],
                                           ds["roadissues"],
                                           ds["roadviolance"],
                                           ds["trafficissues"],
                                         ],
                                         label: "Select category",
-                                        hint: "country in menu mode",
+                                        hint: "",
                                         popupItemDisabled: (String s) =>
                                             s.startsWith('I'),
                                         onChanged: (value) {
@@ -215,9 +221,9 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                                             print(selectedValue);
                                           });
                                         },
-                                        selectedItem: ds["roadissues"]);
-                                  },
-                                );
+                                        // selectedItem: ds["potHole"]
+                                      );
+                                    });
                               }),
                           SizedBox(
                             height: screenHeight * 0.02,
@@ -290,7 +296,8 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   submitOffense() async {
     if (title.text.isEmpty ||
         description.text.isEmpty ||
-        selectedValue.isEmpty) {
+        selectedValue.isEmpty ||
+        _currentPosition == null) {
       return Get.snackbar("Please enter all details!", "",
           snackPosition: SnackPosition.BOTTOM);
     }
@@ -300,7 +307,10 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
     });
     final snapshot = await photopath.whenComplete(() {});
     final ticketImgUrl = await snapshot.ref.getDownloadURL();
-    firebase.collection("tickets").doc(uid).set({
+
+    var Ticketid = Uuid();
+    var myticketId = Ticketid.v4();
+    firebase.collection("tickets").doc(myticketId).set({
       "lat": _latitude,
       "long": _longitude,
       "addressFromLatLong": _currentAddress,
@@ -309,7 +319,12 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
       "ticketImgUrl": ticketImgUrl,
       "username": name,
       "tickettitle": title.text,
-      "category": selectedValue
+      "category": selectedValue,
+      "time": DateTime.now(),
+      "resolved": false,
+      "uid": uid,
+      "phone": phone,
+      "ticketId": myticketId
     }).then((value) {
       setState(() {
         loading = false;
@@ -320,7 +335,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
         duration: Duration(seconds: 2),
         snackPosition: SnackPosition.BOTTOM,
       );
-      Get.offAll(HomeScreenMain(), transition: Transition.cupertino);
+      Get.to(HomeScreenMain(), transition: Transition.cupertino);
     });
   }
 

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,8 +9,12 @@ import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
 import 'package:geraki/constants/strings.dart';
+import 'package:geraki/controller/auth_controller.dart';
+import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:video_player/video_player.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -18,24 +23,40 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late String firstHalf;
-
+  late VideoPlayerController _controller;
   late String secondHalf;
   late String description;
-
   bool flag = true;
   late SharedPreferences prefs;
 
-  getUserDataLocally() async {
-    prefs = await SharedPreferences.getInstance();
-    profileUrl = prefs.getString("profileUrl");
-    uid = prefs.getString("uid");
-    name = prefs.getString("username");
+  AuthController authController = Get.find();
+  getUserData() async {
+    // prefs = await SharedPreferences.getInstance();
+    // profileUrl = prefs.getString("profileUrl");
+    // uid = prefs.getString("uid");
+    // name = prefs.getString("username");
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value) {
+      setState(() {
+        profileUrl = value.get("photourl");
+        name = value.get("name");
+        phone = value.get("phoneNumber");
+        print(profileUrl);
+        print(name);
+      });
+    });
+  }
 
+  inputData() {
+    User user = authController.auth.currentUser!;
+    uid = user.uid;
+    print("uid:$uid");
   }
 
   @override
   void initState() {
-    getUserDataLocally();
+    inputData();
+    getUserData();
+
     super.initState();
   }
 
@@ -62,6 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       itemCount: snapshot.data!.size,
                       itemBuilder: (context, index) {
                         DocumentSnapshot ds = snapshot.data!.docs[index];
+                        Timestamp timestamp = ds['time'];
                         return Column(children: [
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,10 +178,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ],
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 ReadMoreText(ds["ticketDesc"],
                                     trimLines: 2,
@@ -183,15 +205,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             fontWeight: FontWeight.w400,
                                             fontSize: 14,
                                             color: headline3Color)),
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    'created by:${ds["username"]}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .subtitle1!
-                                        .copyWith(fontSize: 13),
-                                  ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        'created by:${ds["username"]}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1!
+                                            .copyWith(fontSize: 13),
+                                      ),
+                                    ),
+                                    Text(
+                                      timeago
+                                          .format(DateTime.tryParse(
+                                              timestamp.toDate().toString())!)
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1!
+                                          .copyWith(fontSize: 13),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),

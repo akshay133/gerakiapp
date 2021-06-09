@@ -62,7 +62,16 @@ class _ProfileState extends State<Profile> {
     print("uid:$uid");
     print("phoneNumber:$userphoneNo");
   }
-
+@override
+  void dispose() {
+  name.dispose();
+  email.dispose();
+  date.dispose();
+  address.dispose();
+  month.dispose();
+  year.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return loading
@@ -123,7 +132,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    Row(
+                    Row(//controller dispose nahi kiye
                       children: [
                         MyTextField(
                           title: 'DD',
@@ -256,10 +265,10 @@ class _ProfileState extends State<Profile> {
 
     final snapshot = await photopath.whenComplete(() {});
     final photourl = await snapshot.ref.getDownloadURL();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("profileUrl", photourl);
-    prefs.setString("uid", uid);
-    prefs.setString("username", name.text);
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString("profileUrl", photourl);
+    // prefs.setString("uid", uid);
+    // prefs.setString("username", name.text);
     firebase.collection('users').doc(uid).set({
       'photourl': photourl,
       'name': name.text,
