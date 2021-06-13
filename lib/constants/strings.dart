@@ -18,6 +18,7 @@ const String mytickets = "My Tickets";
 const String feeds = "Feeds";
 const String pending = "Pending";
 const String resolved = "Resolved";
+const String authority = 'LOGIN AS AUTHORITY';
 String? profileUrl = "";
 String? uid = "";
 String? name = "";

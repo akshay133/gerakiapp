@@ -35,8 +35,9 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
   late String selectedValue;
+  late LocationPermission permission;
+  getCurrentLocation() async {
 
-  getCurrentLocation() {
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: true)

@@ -8,6 +8,7 @@ import 'package:geraki/constants/strings.dart';
 import 'package:geraki/screens/authority_login_screen.dart';
 import 'package:geraki/screens/signup_screen.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
 
@@ -17,7 +18,17 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  var radioValue;
+  late SharedPreferences _prefs;
+  bool? auth;
+  getInstances() async {
+    _prefs = await SharedPreferences.getInstance();
+    auth = _prefs.getBool("authority")!;
+  }
+  @override
+  void initState() {
+    getInstances();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -37,54 +48,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: Container(
                     color: whiteColor, child: Image.asset(welcomeImg)),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: Text('Role',
-                      style: Theme.of(context).textTheme.subtitle1),
-                ),
-                Row(
-                  children: [
-                    // Radio(
-                    //   value: 'admin',
-                    //   onChanged: (val) {
-                    //     radioValue = val;
-                    //     setState(() {
-                    //       print(radioValue);
-                    //     });
-                    //   },
-                    //   groupValue: radioValue,
-                    // ),
-                    // Text(
-                    //   'Admin',
-                    //   style: Theme.of(context)
-                    //       .textTheme
-                    //       .subtitle1!
-                    //       .copyWith(fontSize: 14),
-                    // ),
-                    Radio(
-                      value: 'authority',
-                      groupValue: radioValue,
-                      onChanged: (val) {
-                        radioValue = val;
-                        setState(() {
-                          print(radioValue);
-                        });
-                        Get.to(AuthLoginScreen());
-                      },
-                    ),
-                    Text(
-                      'Authority',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .copyWith(fontSize: 14),
-                    ),
-                  ],
-                ),
-              ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -118,8 +81,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Get.to(LoginScreen());
                         }),
                         TextButton(
-                          onPressed: () {},
-                          child: Text(cntinueGuest,
+                          onPressed: () {
+                            Get.to(AuthLoginScreen());
+                          },
+                          child: Text(authority,
                               style: Theme.of(context).textTheme.subtitle1),
                         ),
                       ],

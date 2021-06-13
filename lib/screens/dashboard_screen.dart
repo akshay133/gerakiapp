@@ -172,9 +172,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     Text('7'),
                                   ],
                                 ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: SvgPicture.asset(share)),
+                                if (ds['resolved'])
+                                  Text(
+                                    'Resolved',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(color: Colors.green),
+                                  )
+                                else
+                                  Text(
+                                    'Pending',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4!
+                                        .copyWith(color: Colors.red),
+                                  ),
                               ],
                             ),
                           ),

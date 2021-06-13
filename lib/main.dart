@@ -6,11 +6,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/controller/auth_controller.dart';
-import 'package:geraki/screens/authority_dashboard.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 late List<CameraDescription> cameras;
 void main() async {
@@ -34,16 +32,8 @@ class _MyAppState extends State<MyApp> {
   FirebaseAuth? _auth;
   User? _user;
 
-  late SharedPreferences _prefs;
-  bool? auth;
-  getInstances() async {
-    _prefs = await SharedPreferences.getInstance();
-    auth = _prefs.getBool("authority")!;
-  }
-
   @override
   void initState() {
-    getInstances();
     _auth = FirebaseAuth.instance;
     _user = _auth!.currentUser;
     super.initState();
@@ -98,10 +88,6 @@ class _MyAppState extends State<MyApp> {
             iconTheme: IconThemeData(color: whiteColor),
           ),
         ),
-        home: _user == null
-            ? WelcomeScreen()
-            : (auth == true)
-                ? AuthoritiesDashboard()
-                : HomeScreenMain());
+        home: _user == null ? WelcomeScreen() : HomeScreenMain());
   }
 }
