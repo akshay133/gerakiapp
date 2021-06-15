@@ -12,6 +12,7 @@ import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/custome_shapes.dart';
 import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/images.dart';
+import 'package:geraki/constants/strings.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/screens/home_screen_main.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,7 @@ File? photo;
 bool loading = false;
 late String uid;
 late String userphoneNo;
+String photourl=defaultUserImg;
 
 AuthController authController = Get.find();
 
@@ -62,16 +64,7 @@ class _ProfileState extends State<Profile> {
     print("uid:$uid");
     print("phoneNumber:$userphoneNo");
   }
-@override
-  void dispose() {
-  name.dispose();
-  email.dispose();
-  date.dispose();
-  address.dispose();
-  month.dispose();
-  year.dispose();
-    super.dispose();
-  }
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -122,30 +115,21 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                     GenderRadio(context),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, top: 10),
-                      child: Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: Text(
-                          'Date of Birth',
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ),
-                    ),
-                    Row(//controller dispose nahi kiye
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        MyTextField(
-                          title: 'DD',
-                          keyBoardType: TextInputType.number,
-                          Width: screenWidth * 0.20,
-                          controller: date,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 10),
+                          child: Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Text(
+                              'Year of Birth',
+                              style: Theme.of(context).textTheme.subtitle1,
+                            ),
+                          ),
                         ),
-                        MyTextField(
-                          title: 'MM',
-                          keyBoardType: TextInputType.number,
-                          Width: screenWidth * 0.22,
-                          controller: month,
-                        ),
+
                         MyTextField(
                           title: 'YYYY',
                           keyBoardType: TextInputType.number,
@@ -243,7 +227,8 @@ class _ProfileState extends State<Profile> {
 
   var firebase = FirebaseFirestore.instance;
   submitDetails() async {
-    if (photo == null ||
+    if (
+    //photo == null ||
         name.text == '' ||
         email.text == '' ||
         date.text == '' ||
@@ -258,17 +243,19 @@ class _ProfileState extends State<Profile> {
       );
       return;
     }
-    UploadTask photopath = uploadPhoto();
-    setState(() {
-      loading = true;
-    });
+    if(photo!=null) {
+      UploadTask photopath = uploadPhoto();
+      setState(() {
+        loading = true;
+      });
 
-    final snapshot = await photopath.whenComplete(() {});
-    final photourl = await snapshot.ref.getDownloadURL();
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // prefs.setString("profileUrl", photourl);
-    // prefs.setString("uid", uid);
-    // prefs.setString("username", name.text);
+      final snapshot = await photopath.whenComplete(() {});
+      photourl = await snapshot.ref.getDownloadURL();
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("profileUrl", photourl);
+    prefs.setString("uid", uid);
+    prefs.setString("username", name.text);
     firebase.collection('users').doc(uid).set({
       'photourl': photourl,
       'name': name.text,

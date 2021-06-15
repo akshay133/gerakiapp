@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:geraki/constants/strings.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' show join;
@@ -48,6 +51,10 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
     openTheRecorder().then((value) {
       setState(() {
         _mRecorderIsInited = true;
+        // _mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        // _mRecorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS);
+        // _mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        _mRecorder!.isEncoderSupported(Codec.aacADTS);
       });
     });
      getPath();
@@ -61,6 +68,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
 
     _mRecorder!.closeAudioSession();
     _mRecorder = null;
+
     super.dispose();
   }
 
@@ -132,6 +140,21 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
     });
   }
 
+  uploadFile() {
+    File file=File(path!);
+    DateTime time = DateTime.now();
+    String filename = 'files/SOS/${uid! + time.toString()}';
+    try {
+      final ref = FirebaseStorage.instance.ref(filename);
+
+      UploadTask task = ref.putFile(file,SettableMetadata(contentType: 'audio/mpeg'));
+
+      return task;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -151,7 +174,7 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
             children: [
               Align(
                   alignment: AlignmentDirectional.topEnd,
-                  child: IconButton(icon: Icon(Icons.close),onPressed: (){Navigator.pop(context);},)),
+                  child: IconButton(icon: Icon(Icons.close),onPressed: (){_timer!.cancel();Navigator.pop(context);},)),
               Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: IconButton(icon: Icon(Icons.delete_forever_outlined),onPressed: (){},)),
@@ -215,8 +238,9 @@ class _MyBottomSheetState extends State<MyBottomSheet> {
                       "00:$_start",style: Theme.of(context).textTheme.subtitle1,
                     ),
                     ElevatedButton(
-                      onPressed: (){print('send');
-                      play();
+                      onPressed: (){
+                        uploadFile();
+                        print('send');
                       },
                       child: Text('Send',style: Theme.of(context).textTheme.headline5!.copyWith(color: Colors.white),),
                     )
