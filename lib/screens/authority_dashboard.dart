@@ -133,6 +133,10 @@ class _AuthoritiesDashboardState extends State<AuthoritiesDashboard> {
                                     descr: data['ticketDesc'],
                                     username: data['username'],
                                     phone: data["phone"],
+                                    lat: data['lat'],
+                                    long: data['long'],
+                                    area: data['area'],
+                                    isAuthority: true,
                                     ticketId: data['ticketId']),
                                 transition: Transition.rightToLeftWithFade);
                           },

@@ -9,31 +9,36 @@ class SingleTicketInfoScreen extends StatefulWidget {
   final String img;
   final String location;
   final String time;
-  final bool status;
+  bool status;
   final String descr;
   final String username;
   final String phone;
   final String ticketId;
+  final String lat;
+  final String long;
+  final String area;
+  final bool isAuthority;
 
-  SingleTicketInfoScreen({
-    required this.title,
-    required this.img,
-    required this.location,
-    required this.time,
-    required this.status,
-    required this.descr,
-    required this.username,
-    required this.phone,
-    required this.ticketId,
-  });
+  SingleTicketInfoScreen(
+      {required this.title,
+      required this.img,
+      required this.location,
+      required this.time,
+      required this.status,
+      required this.descr,
+      required this.username,
+      required this.phone,
+      required this.ticketId,
+      required this.lat,
+      required this.long,
+      required this.isAuthority,
+      required this.area});
 
   @override
   _SingleTicketInfoScreenState createState() => _SingleTicketInfoScreenState();
 }
 
 class _SingleTicketInfoScreenState extends State<SingleTicketInfoScreen> {
-  bool _isSelected = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,6 +76,13 @@ class _SingleTicketInfoScreenState extends State<SingleTicketInfoScreen> {
                       "Address: ${widget.location}",
                       style: Theme.of(context).textTheme.headline4,
                     ),
+                    SizedBox(
+                      height: screenHeight * 0.01,
+                    ),
+                    Text(
+                      "lat: ${widget.lat} long:${widget.long}",
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                     Container(
                         alignment: Alignment.topRight,
                         child: Text(widget.time)),
@@ -87,31 +99,50 @@ class _SingleTicketInfoScreenState extends State<SingleTicketInfoScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text("Status"),
-                        InputChip(
-                          padding: EdgeInsets.all(4.0),
-                          avatar: CircleAvatar(
-                            backgroundColor: whiteColor,
-                          ),
-                          label: Text(
-                            _isSelected ? 'Resolved' : "Pending",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    _isSelected ? Colors.white : Colors.black),
-                          ),
-                          selected: _isSelected,
-                          selectedColor: primaryColor,
+                        if (!widget.isAuthority)
+                          widget.status
+                              ? Text(
+                                  'Resolved',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .copyWith(color: Colors.green),
+                                )
+                              : Text(
+                                  'Pending',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .copyWith(color: Colors.red),
+                                )
+                        else
+                          InputChip(
+                            padding: EdgeInsets.all(4.0),
+                            avatar: CircleAvatar(
+                              backgroundColor: whiteColor,
+                            ),
+                            label: Text(
+                              widget.status ? 'Resolved' : "Pending",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: widget.status
+                                      ? Colors.white
+                                      : Colors.black),
+                            ),
+                            selected: widget.status,
+                            selectedColor: primaryColor,
 
-                          onSelected: (bool selected) {
-                            setState(() {
-                              _isSelected = selected;
-                            });
-                              FirebaseFirestore.instance.collection('tickets').doc(widget.ticketId).update({
-                                'resolved': !widget.status
+                            onSelected: (bool selected) {
+                              setState(() {
+                                widget.status = selected;
                               });
-                          },
-                          // onDeleted: () {},
-                        ),
+                              FirebaseFirestore.instance
+                                  .collection('tickets')
+                                  .doc(widget.ticketId)
+                                  .update({'resolved': widget.status});
+                            },
+                            // onDeleted: () {},
+                          ),
                       ],
                     )
                   ],

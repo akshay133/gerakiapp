@@ -15,14 +15,9 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _paswordController = TextEditingController();
   AuthController _authController = Get.find();
-  late SharedPreferences _prefs;
-  getInstances() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
 
   @override
   void initState() {
-    getInstances();
     super.initState();
   }
 
@@ -75,9 +70,10 @@ class _AuthLoginScreenState extends State<AuthLoginScreen> {
             ),
             SizedBox(height: screenHeight * 0.02),
             button("login", context, () async {
-              _authController.login(
-                  _emailController.text.trim(), _paswordController.text.trim());
-              _prefs.setBool('authority', true);
+              _authController.login(_emailController.text.trim(),
+                  _paswordController.text.trim());
+
+
             })
           ],
         ),

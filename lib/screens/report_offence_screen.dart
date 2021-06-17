@@ -34,10 +34,12 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
   late VideoPlayerController _controller;
   TextEditingController description = TextEditingController();
   TextEditingController title = TextEditingController();
-  late String selectedValue;
+  String selectedValue = "";
+  String selectedValue2 = "";
   late LocationPermission permission;
-  getCurrentLocation() async {
+  bool flag = false;
 
+  getCurrentLocation() async {
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: true)
@@ -191,35 +193,96 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
                                 if (!snapshot.hasData) {
                                   return SpinKitCircle(
                                     color: primaryColor,
-                                    size: 50,
+                                  );
+                                }
+                                return Column(
+                                  children: [
+                                    ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data!.size,
+                                        itemBuilder: (context, index) {
+                                          DocumentSnapshot ds =
+                                              snapshot.data!.docs[index];
+                                          return DropdownSearch<String>(
+                                            mode: Mode.MENU,
+                                            showSelectedItem: true,
+
+                                            items: [
+                                              // ds["driveWithoutHelmet"],
+                                              // ds["boulder"],
+                                              // ds["parking"],
+                                              // ds["potHole
+                                              ds["trafficissues"],
+                                              ds['roadissues']
+                                            ],
+                                            label: "Select category",
+                                            hint: "",
+                                            popupItemDisabled: (String s) =>
+                                                s.startsWith('I'),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                selectedValue = value!;
+                                                if (selectedValue ==
+                                                    'Traffic violation') {
+                                                  setState(() {
+                                                    flag = true;
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    flag = false;
+                                                    selectedValue2 = '';
+                                                  });
+                                                }
+
+                                                print(selectedValue);
+                                              });
+                                            },
+                                            // selectedItem: ds["potHole"]
+                                          );
+                                        }),
+                                  ],
+                                );
+                              }),
+                          // selectedValue == ds['roadissues']
+                          // ? Container()
+                          // :
+                          SizedBox(
+                            height: screenHeight * 0.02,
+                          ),
+                          StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance
+                                  .collection("areas")
+                                  .snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return SpinKitCircle(
+                                    color: primaryColor,
                                   );
                                 }
                                 return ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: snapshot.data!.size,
                                     itemBuilder: (context, index) {
-                                      DocumentSnapshot ds =
+                                      DocumentSnapshot data =
                                           snapshot.data!.docs[index];
                                       return DropdownSearch<String>(
+                                        enabled: flag,
                                         mode: Mode.MENU,
                                         showSelectedItem: true,
+
                                         items: [
-                                          ds["driveWithoutHelmet"],
-                                          ds["boulder"],
-                                          ds["parking"],
-                                          ds["potHole"],
-                                          ds["roadissues"],
-                                          ds["roadviolance"],
-                                          ds["trafficissues"],
+                                          data['chamba'],
+                                          data['dalhousie'],
+                                          data['salooni']
                                         ],
-                                        label: "Select category",
+                                        label: "Select Area",
                                         hint: "",
                                         popupItemDisabled: (String s) =>
                                             s.startsWith('I'),
                                         onChanged: (value) {
                                           setState(() {
-                                            selectedValue = value!;
-                                            print(selectedValue);
+                                            selectedValue2 = value!;
+                                            print(selectedValue2);
                                           });
                                         },
                                         // selectedItem: ds["potHole"]
@@ -321,6 +384,7 @@ class _ReportOffenceScreenState extends State<ReportOffenceScreen> {
       "username": name,
       "tickettitle": title.text,
       "category": selectedValue,
+      "area": selectedValue2,
       "time": DateTime.now(),
       "resolved": false,
       "uid": uid,

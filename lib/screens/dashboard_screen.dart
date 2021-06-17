@@ -71,12 +71,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('tickets')
+                    .where("category", isEqualTo: "Road issues")
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return SpinKitCircle(
                       color: primaryColor,
-                      size: 50,
                     );
                   }
                   return ListView.builder(
