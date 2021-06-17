@@ -18,7 +18,10 @@ const String mytickets = "My Tickets";
 const String feeds = "Feeds";
 const String pending = "Pending";
 const String resolved = "Resolved";
-const String defaultUserImg="https://firebasestorage.googleapis.com/v0/b/geraki-a901b.appspot.com/o/files%2FuserImages%2Fgeraki%20user1.jpg?alt=media&token=2f6519a9-27da-4d88-b4e4-7c023fd821b4";
+const String authority = "LOGIN AS AUTHORITY";
+const String defaultUserImg =
+    "https://firebasestorage.googleapis.com/v0/b/geraki-a901b.appspot.com/o/files%2FuserImages%2Fgeraki%20user1.jpg?alt=media&token=2f6519a9-27da-4d88-b4e4-7c023fd821b4";
 String? profileUrl = "";
 String? uid = "";
 String? name = "";
+String? phone = "";
