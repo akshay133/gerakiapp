@@ -101,4 +101,14 @@ class AuthController extends GetxController {
       print(e);
     }
   }
+
+  changePassword(String newPassword) async {
+    auth.currentUser!.updatePassword(newPassword).then((value) {
+      Get.snackbar("Successfully changed password", "",
+          snackPosition: SnackPosition.BOTTOM);
+    }).catchError((e) {
+      Get.snackbar("Password can't be changed", "",
+          snackPosition: SnackPosition.BOTTOM);
+    });
+  }
 }

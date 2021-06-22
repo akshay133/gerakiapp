@@ -29,7 +29,7 @@ File? photo;
 bool loading = false;
 late String uid;
 late String userphoneNo;
-String photourl=defaultUserImg;
+String photourl = defaultUserImg;
 
 AuthController authController = Get.find();
 
@@ -91,31 +91,31 @@ class _ProfileState extends State<Profile> {
                       Width: screenWidth,
                       controller: name,
                     ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Container(
-                      width: screenWidth,
-                      decoration: BoxDecoration(
-                          color: textFieldColor,
-                          border: Border.all(color: buttonBorder, width: 1),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: TextFormField(
-                        autovalidateMode: AutovalidateMode.always,
-                        validator: (input) => isValidEmail(input!) ? null : "Check your email",
-                        controller: email,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Email',
-                          labelStyle: Theme.of(context).textTheme.subtitle1,
-                          contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        width: screenWidth,
+                        decoration: BoxDecoration(
+                            color: textFieldColor,
+                            border: Border.all(color: buttonBorder, width: 1),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.always,
+                          validator: (input) =>
+                              isValidEmail(input!) ? null : "Check your email",
+                          controller: email,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            labelText: 'Email',
+                            labelStyle: Theme.of(context).textTheme.subtitle1,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 20.0),
+                          ),
                         ),
                       ),
                     ),
-                  ),
                     GenderRadio(context),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -129,7 +129,6 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ),
-
                         MyTextField(
                           title: 'YYYY',
                           keyBoardType: TextInputType.number,
@@ -160,10 +159,9 @@ class _ProfileState extends State<Profile> {
 
   bool isValidEmail(String email) {
     return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(email);
   }
-
 
   Row GenderRadio(BuildContext context) {
     return Row(
@@ -227,12 +225,8 @@ class _ProfileState extends State<Profile> {
 
   var firebase = FirebaseFirestore.instance;
   submitDetails() async {
-    if (
-    //photo == null ||
-        name.text == '' ||
+    if (name.text == '' ||
         email.text == '' ||
-        date.text == '' ||
-        month.text == '' ||
         year.text == '' ||
         address.text == '' ||
         radioValue == null) {
@@ -243,7 +237,7 @@ class _ProfileState extends State<Profile> {
       );
       return;
     }
-    if(photo!=null) {
+    if (photo != null) {
       UploadTask photopath = uploadPhoto();
       setState(() {
         loading = true;

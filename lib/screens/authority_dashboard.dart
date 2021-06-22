@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:geraki/constants/strings.dart';
+import 'package:geraki/screens/change_password_screen.dart';
 import 'package:geraki/screens/single_ticket_info_screen.dart';
 import 'package:geraki/screens/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -39,6 +41,24 @@ class _AuthoritiesDashboardState extends State<AuthoritiesDashboard> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Dashboard"),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            onTap: () {
+              Get.to(ChangePasswordScreen());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: whiteColor,
+                  ),
+                  shape: BoxShape.circle),
+              child: CircleAvatar(
+                backgroundImage: CachedNetworkImageProvider(defaultUserImg),
+              ),
+            ),
+          ),
+        ),
         actions: [
           // IconButton(onPressed: () {}, icon: Icon(Icons.notifications_none)),
           IconButton(
@@ -76,12 +96,7 @@ class _AuthoritiesDashboardState extends State<AuthoritiesDashboard> {
                           mode: Mode.MENU,
                           showSelectedItem: true,
                           items: [
-                            ds["driveWithoutHelmet"],
-                            ds["boulder"],
-                            ds["parking"],
-                            ds["potHole"],
                             ds["roadissues"],
-                            ds["roadviolance"],
                             ds["trafficissues"],
                           ],
                           label: "Select category",
