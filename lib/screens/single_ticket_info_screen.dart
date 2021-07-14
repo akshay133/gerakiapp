@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/dimestions.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:share/share.dart';
 
 class SingleTicketInfoScreen extends StatefulWidget {
   final String title;
@@ -39,11 +43,31 @@ class SingleTicketInfoScreen extends StatefulWidget {
 }
 
 class _SingleTicketInfoScreenState extends State<SingleTicketInfoScreen> {
+  Future<void> share() async {
+    List<File> files = [];
+    try {
+      var imageId = await ImageDownloader.downloadImage(widget.img);
+      var path = await ImageDownloader.findPath(imageId!);
+      files.add(File(path!));
+      await Share.shareFiles([path],
+          mimeTypes: ["image/png"], text: widget.title);
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+              onPressed: () {
+                share();
+              },
+              icon: Icon(Icons.file_download_outlined))
+        ],
       ),
       body: Container(
         child: SingleChildScrollView(

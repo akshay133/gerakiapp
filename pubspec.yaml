@@ -58,6 +58,8 @@ dependencies:
   uuid: ^3.0.4
   firebase_messaging: ^10.0.1
   awesome_notifications: ^0.0.6+9
+  share: ^2.0.4
+  image_downloader: ^0.30.0
 
 
 

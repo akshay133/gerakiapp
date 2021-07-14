@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geraki/constants/colors.dart';
 import 'package:geraki/constants/dimestions.dart';
-import 'package:geraki/constants/strings.dart';
 import 'package:geraki/controller/auth_controller.dart';
 import 'package:geraki/controller/navigation_controller.dart';
 import 'package:geraki/screens/DspSalooniDasboard.dart';

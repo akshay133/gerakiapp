@@ -40,6 +40,7 @@ class AuthController extends GetxController {
 
   verifyOTP(String otp, String screen) async {
     try {
+      _prefs = await SharedPreferences.getInstance();
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: this.verificationID, smsCode: otp));
@@ -47,7 +48,9 @@ class AuthController extends GetxController {
         Get.snackbar("otp info", "Verified",
             snackPosition: SnackPosition.BOTTOM);
         if (screen == signup) {
-          Get.offAll(ProfileSetup(), transition: Transition.cupertino);
+          _prefs.setBool("profileSetup", false).then((value) {
+            Get.offAll(ProfileSetup(), transition: Transition.cupertino);
+          });
         } else {
           Get.offAll((HomeScreenMain()), transition: Transition.cupertino);
         }

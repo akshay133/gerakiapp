@@ -51,9 +51,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late SharedPreferences _prefs;
+  getInstances() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
   @override
   void initState() {
     inputData();
+    getInstances();
     super.initState();
   }
 
@@ -260,6 +266,7 @@ class _ProfileState extends State<Profile> {
       'phoneNumber': userphoneNo,
       'uid': uid
     }).then((value) {
+      _prefs.setBool('profileSetup', true);
       Get.snackbar(
         "Profile Details Submitted!!",
         "",
@@ -272,7 +279,7 @@ class _ProfileState extends State<Profile> {
       loading = false;
     });
 
-    Get.to(() => HomeScreenMain());
+    Get.offAll(() => HomeScreenMain());
   }
 
   uploadPhoto() {

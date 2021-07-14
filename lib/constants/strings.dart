@@ -25,3 +25,4 @@ String? profileUrl = "";
 String? uid = "";
 String? name = "";
 String? phone = "";
+bool profileSetup = false;

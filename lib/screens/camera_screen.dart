@@ -8,10 +8,12 @@ import 'package:geraki/constants/dimestions.dart';
 import 'package:geraki/constants/strings.dart';
 import 'package:geraki/main.dart';
 import 'package:geraki/screens/preview_screen.dart';
+import 'package:geraki/screens/profile_setup.dart';
 import 'package:geraki/screens/video_preview_screen.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -29,10 +31,30 @@ class _CameraScreenState extends State<CameraScreen> {
   BoxShape videoShape = BoxShape.circle;
   late String videoPath;
   late VoidCallback videoPlayerListener;
+  late SharedPreferences _prefs;
+  checkProfileSetup() async {
+    _prefs = await SharedPreferences.getInstance();
+    bool? check = _prefs.getBool("profileSetup");
+    if (check == false) {
+      Get.defaultDialog(
+          title: 'Profile Setup Not Complete',
+          middleText: 'You would not be able to post before Profile completion',
+          onConfirm: () async {
+            await _prefs.clear().then((value) {
+              Get.offAll(ProfileSetup());
+            });
+          },
+          onWillPop: () {
+            return Future.value(false);
+          },
+          barrierDismissible: false);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    checkProfileSetup();
     setCameraType();
   }
 
